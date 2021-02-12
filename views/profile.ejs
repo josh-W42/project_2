@@ -1,0 +1,10 @@
+<% if (!currentUser) { %>
+    <h2>You need to login first</h2> 
+<% } else { %>
+    <h2>Profile Page</h2>
+    
+    <h3>Welcome to your PROFILE</h3>
+
+    id: <%= id %>
+    name: <%= name %>
+<% } %> 
