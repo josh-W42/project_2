@@ -67,7 +67,19 @@ Some Terminology:
 
 ## Wireframes:
 
+### Sign In:
 
+![sign in / sign up modals](./Signin_SignUp.png)
+
+### Feed:
+
+![crane feed UI](./FeedUI.png)
+
+### Making New Content:
+
+![crane new content creation](./makingNewContent.png)
 
 ## Data Models and ERD:
+
+![Data models and relations](./craneDbRelations.jpeg)
 
