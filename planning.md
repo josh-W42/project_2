@@ -69,7 +69,7 @@ Some Terminology:
 
 ### Sign In:
 
-![sign in / sign up modals](./Signin_SignUp.png)
+![sign in / sign up modals](./SignIn_SignUp.png)
 
 ### Feed:
 
