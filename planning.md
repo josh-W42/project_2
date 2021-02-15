@@ -69,17 +69,17 @@ Some Terminology:
 
 ### Sign In:
 
-![sign in / sign up modals](./SignIn_SignUp.png)
+![sign in / sign up modals](./public/assets/SignIn_SignUp.png)
 
 ### Feed:
 
-![crane feed UI](./FeedUI.png)
+![crane feed UI](./public/assets/FeedUI.png)
 
 ### Making New Content:
 
-![crane new content creation](./makingNewContent.png)
+![crane new content creation](./public/assets/makingNewContent.png)
 
 ## Data Models and ERD:
 
-![Data models and relations](./craneDbRelations.jpeg)
+![Data models and relations](./public/assets/craneDbRelations.jpeg)
 
