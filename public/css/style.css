@@ -2,6 +2,10 @@ header {
   margin-top: 30%;
 }
 
+.hidden {
+  display: none;
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;

@@ -1,12 +1,60 @@
-<form action="/auth/signup" method="POST">
-  <label for="new-email">Email</label>
-  <input id="new-email" type="email" name="email">
-
-  <label for="new-name">Name</label>
-  <input id="new-name" type="text" name="name">
-
-  <label for="new-password">Password</label>
-  <input id="new-password" type="password" name="password">
-
-  <input type="submit" value="Sign up">
-</form>
+<div class="container d-flex flex-column m-auto col-xs col-md-6 col-xl-4 border border-light border-1">
+  <h1>Sign Up:</h1>
+  <span class="text-muted">* - required</span>
+  <form class="text-center" action="/auth/signup" method="POST">
+    <div class="m-3 form-floating">
+      <input id="auth-username" class="form-control" placeholder="Your Username" type="text" name="username" required/>
+      <label for="auth-username">Username*</label>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="form-floating m-3">
+          <input type="text" name="firstName" class="form-control" placeholder="First Name" id="auth-firstname"/>
+          <label for="auth-firstName">First Name</label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-floating m-3">
+          <input type="text" name="lastName" class="form-control" placeholder="Last Name" id="auth-lastname" />
+          <label for="auth-lastName">Last Name</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-floating m-3">
+      <input type="email" name="email" class="form-control" placeholder="Email" id="auth-email" required/>
+      <label for="auth-email">Email*</label>
+    </div>
+    <div class="form-floating m-3">
+      <input type="password" name="password" class="form-control" placeholder="Password" id="auth-password" required/>
+      <label for="auth-password">Password*</label>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="m-3">
+          <label for="auth-image" class="form-label">Profile Picture</label>
+          <input class="form-control" type="file" placeholder="" name="imageUrl" id="auth-image">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-check form-switch">
+          <div class="d-flex column">
+            <div class="container">
+              <label class="form-check-label" for="auth-privacy">Privacy:</label>
+            </div>
+            <div class="container">
+              <input class="form-check-input form-check-inline" type="checkbox" name="isPrivate" id="auth-privacy">
+            </div>
+          </div>
+        </div>
+        <div class="text-start">
+          <span id="publicInfo"><span class="fs-3 fw-bold">Public:</span> Everyone can see your posts and anyone can follow you.</span>
+          <span id="privateInfo" class="hidden"><span class="fs-3 fw-bold">Private:</span> Only your followers can see your posts and you choose who follows you.</span>
+        </div>
+      </div>
+    </div>
+    <div class="m-3">
+      <button id="signUpSubmit" type="submit" class="btn btn-primary">Sign Up</button>
+    </div>
+  </form>
+</div>
+<script src="/js/auth.js" type="text/javascript"></script>

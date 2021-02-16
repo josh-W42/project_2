@@ -10,7 +10,7 @@
     <% if (alerts.error) { %>
         <% console.log(alerts) %>
         <% alerts.error.forEach(msg => { %>
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <img width="40" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" class="rounded me-2" alt="crane logo">
                     <strong class="me-auto">Crane</strong>
@@ -35,11 +35,4 @@
         <% }) %>
     <% } %>
 </div>
-<script defer>
-    const bootstrap = window.bootstrap;
-    let toasts = document.querySelectorAll('.toast');
-    toasts.forEach(toast => {
-        let newToast = new window.bootstrap.Toast(toast);
-        newToast.show();
-    });
-</script>
+<script src="/js/notifications.js" type="text/javascript"></script>
