@@ -1,4 +1,5 @@
 'use strict';
+const crypto = require('crypto');
 const {
   Model
 } = require('sequelize');
@@ -16,33 +17,9 @@ module.exports = (sequelize, DataTypes) => {
   user.init({
     firstName: {
       type: DataTypes.STRING,
-      validate: {
-        len: {
-          args: [1,50],
-          msg: "First name must be between 1-50 characters.",
-        },
-        isAlphanumeric: {
-          args: true,
-          msg: "First Name must contain only letters.",
-        },
-        allowNull: {
-          args: true,
-        },
-      }
     },
     lastName: {
       type: DataTypes.STRING,
-      validate: {
-        len: [1,50],
-        msg: "Last name must be between 1-50 characters.",
-      },
-      isAlphanumeric: {
-        args: true,
-        msg: "Last name must contain only letters.",
-      },
-      allowNull: {
-        args: true,
-      },
     },
     email: {
       type: DataTypes.STRING,
@@ -65,8 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: {
       type: DataTypes.STRING,
       validate: {
-        allowNull: {
-          args: false
+        isUrl: {
+          args: true
         },
       },
     },
@@ -95,9 +72,6 @@ module.exports = (sequelize, DataTypes) => {
           args: [0,1000],
           msg: "Bio is too long. Must be less than 1000 chars"
         },
-        allowNull: {
-          args: true,
-        },
       },
     },
     isPrivate: DataTypes.BOOLEAN
@@ -115,13 +89,13 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   user.prototype.validPassword = function(typedPassword) {
-    return encryptPassword(typedPassword, this.salt()) === this.password();
+    return encryptPassword(typedPassword, this.key()) === this.password();
   }
   
   const setSaltAndPassword = User => {
     if (User.changed('password')) {
-      User.salt = user.generateSalt();
-      User.password = encryptPassword(User.password(), User.salt());
+      User.key = user.generateSalt();
+      User.password = encryptPassword(User.password(), User.key());
     }
   }
   

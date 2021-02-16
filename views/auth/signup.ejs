@@ -1,9 +1,9 @@
 <div class="container d-flex flex-column col-xs col-md-6 col-xl-4 border border-light border-1">
   <h1>Sign Up:</h1>
   <span class="text-muted">* - required</span>
-  <form class="text-center" action="/auth/signup" method="POST">
+  <form class="text-center" action="/auth/signup" method="POST" enctype="multipart/form-data">
     <div class="my-3 form-floating">
-      <input id="auth-username" class="form-control" placeholder="Your Username" type="text" name="username" required/>
+      <input id="auth-username" class="form-control" placeholder="Your Username" type="text" name="userName" required/>
       <label for="auth-username">Username*</label>
     </div>
     <div class="row">
@@ -34,7 +34,7 @@
       </div>
       <div class="col-xs-3 col-md-6 my-3">
         <label for="auth-image" class="form-label w-100">Profile Picture</label>
-        <input class="form-control-sm" type="file" accept="image/*" name="imageUrl" id="auth-image">
+        <input class="form-control-sm" type="file" accept="image/*" name="image" id="auth-image">
       </div>
     </div>
       <div class="col">
