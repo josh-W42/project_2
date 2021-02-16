@@ -1,9 +1,15 @@
-nav ul li {
-  text-decoration: none;
-  display: inline-block;
-  margin-right: .3em;
+header {
+  margin-top: 30%;
 }
 
-h1 {
-  color: chartreuse;
+@media screen and (min-width: 720px) {
+  header {
+    margin-top: 20%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  header {
+    margin-top: 10%;
+  }
 }

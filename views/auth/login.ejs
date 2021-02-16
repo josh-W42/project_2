@@ -1,9 +1,14 @@
-<form action="/auth/login" method="POST">
-  <label for="auth-email">Email</label>
-  <input id="auth-email" type="email" name="email">
-
-  <label for="auth-password">Password</label>
-  <input id="auth-password" type="password" name="password">
-
-  <input type="submit" value="Log In">
-</form>
+<div class="container d-flex flex-column m-auto col-xs col-md-7 col-xl-3 border border-light border-1">
+  <h1>Login:</h1>
+  <form class="text-center" action="/auth/login" method="POST">
+    <div class="m-3 form-floating">
+      <input id="auth-email" class="form-control" placeholder="example@email.com" type="email" name="email" aria-describedby="emailHelp" required/>
+      <label for="auth-email">Email</label>
+    </div>
+    <div class="form-floating m-3">
+      <input type="password" name="password" class="form-control" placeholder="Password" id="auth-password" required/>
+      <label for="auth-password">Password</label>
+    </div>
+    <button id="loginSubmit" type="submit" class="btn btn-primary">Login</button>
+  </form>
+</div>
