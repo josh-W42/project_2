@@ -1,7 +1,7 @@
 <div class="container d-flex flex-column col-xs col-md-6 col-xl-4 border border-light border-1">
   <h1>Sign Up:</h1>
   <span class="text-muted">* - required</span>
-  <form class="text-center" action="/auth/signup" method="POST" enctype="multipart/form-data">
+  <form class="text-center needs-validation" action="/auth/signup" method="POST" enctype="multipart/form-data">
     <div class="my-3 form-floating">
       <input id="auth-username" class="form-control" placeholder="Your Username" type="text" name="userName" required/>
       <label for="auth-username">Username*</label>
@@ -27,6 +27,14 @@
     <div class="form-floating my-3">
       <input type="password" name="password" class="form-control" placeholder="Password" id="auth-password" required/>
       <label for="auth-password">Password*</label>
+      <div id="passwordVals" class="text-start hidden">
+        <ul>
+          <li class="valid-error">At Least 8 Chararters.</li>
+          <li class="valid-error">Uses numbers and characters</li>
+          <li class="valid-error">Uses special characters i.e. !, #, &</li>
+        </ul>
+      </div>
+
     </div>
     <div class="row">
       <div class="col-xs-3 col-md-4 my-3">

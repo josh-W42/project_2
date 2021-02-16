@@ -16,6 +16,16 @@ header {
   border-radius: 100%;
 }
 
+.valid-error {
+  color: red;
+  list-style-type: "X ";
+}
+
+.valid-success {
+  color: green;
+  list-style-type: "✓ ";
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;

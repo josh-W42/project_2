@@ -53,7 +53,8 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
   } else {
     imageUrl = "https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png";
   }
-
+  
+  // now we try to find a user
   try {
     const [user, created] = await db.user.findOrCreate({
       where: { email },
@@ -74,12 +75,9 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
       res.redirect('/auth/signup');
     }
   } catch (error) {
-    console.log('\n############## ERROR:\n');
-    console.log('An error has occured when accessing the database: ');
-    console.log(error);
-    console.log('\n############## END \n');  
-  
-    req.flash('error', 'Email or password is incorrect. Please try again');
+    error.errors.forEach(error => {
+      req.flash('error', error.message);
+    });
     res.redirect('/auth/signup');
   }
 });
