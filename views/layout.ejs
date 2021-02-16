@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentication</title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- Bootstrap -->
@@ -15,7 +15,9 @@
     <header>
       <%- include('partials/navbar') %> 
     </header>
-    <%- body %>
+    <main class="w-100">
+      <%- body %>
+    </main>
     <footer></footer>
     <%- include('partials/notifications') %>
   </body>
