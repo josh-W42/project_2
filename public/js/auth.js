@@ -1,6 +1,6 @@
 'use strict';
 
-const main = () => {
+(() => {
     // Toggles privacy information.
     document.querySelector('#auth-privacy').addEventListener('change', e => {
         document.querySelector('#publicInfo').classList.toggle('hidden');
@@ -60,6 +60,4 @@ const main = () => {
             }
         });
     });
-}
-main();
-
+})()

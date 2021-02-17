@@ -43,6 +43,17 @@
             });
         });
 
+        // Toggles privacy information.
+        document.querySelector('#flock-privacy').addEventListener('change', e => {
+            document.querySelector('#publicInfo').classList.toggle('hidden');
+            document.querySelector('#privateInfo').classList.toggle('hidden');
+        });
+        
+        document.querySelector('#flock-image').addEventListener('change', e => {
+            if (e.target.files.length > 0) {
+                document.querySelector('#imagePreview').src = URL.createObjectURL(e.target.files[0]);
+            }
+        });        
     }
 
 
