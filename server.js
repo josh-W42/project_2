@@ -57,6 +57,7 @@ app.get('/profile', isLoggedIn, (req, res) => {
 });
 
 app.use('/auth', require('./routes/auth'));
+app.use('/feed', require('./routes/feed'));
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {

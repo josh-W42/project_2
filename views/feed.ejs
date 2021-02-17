@@ -1,0 +1,80 @@
+<div id="feedContainer" class="container d-flex justify-content-center">
+    <div class="row">
+        <% if (currentUser) { %>
+            <section id="userNav">
+                <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">Followers</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">Flocks</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">Collections</button>
+                    </li>
+                </ul>
+                <div class="row">
+                    <div class="collapse multi-collapse" id="followers">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">BillyBilson</li>
+                                <li class="list-group-item">James43</li>
+                                <li class="list-group-item">yourCoolFam</li>
+                                <li class="list-group-item">agent47</li>
+                                <li class="list-group-item">jimPickens</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="collapse multi-collapse" id="flocks">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">trueCranes</li>
+                                <li class="list-group-item">SubsNotDubs</li>
+                                <li class="list-group-item">narutoFanz</li>
+                                <li class="list-group-item">stockFlock100</li>
+                                <li class="list-group-item">Bills</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="collapse multi-collapse" id="collections">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">animeFlocks</li>
+                                <li class="list-group-item">softwareEngineering</li>
+                                <li class="list-group-item">jobSearch101</li>
+                                <li class="list-group-item">freelanceTips</li>
+                                <li class="list-group-item">pizzaPlaces</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        <% } %>
+        <section id="postContainer" class="col bg-dark">
+            <% if (currentUser) { %>
+                <div class="card">
+                    <div id="contentCreation" class="card-body d-flex justify-content-between">
+                        <button type="button" id="newButton" class="btn btn-outline-dark rounded-pill">+ NEW</button>
+                        <button type="button" class="btn btn-outline-dark option invisible" data-bs-toggle="modal" data-bs-target="#newPostModal">POST</button>
+                        <button type="button" class="btn btn-outline-dark option invisible">FLOCK</button>
+                    </div>
+                </div>
+                <%- include('partials/modals') %>           
+            <% } %>
+            <div class="card ml-3">
+                <h5 class="card-header">
+                    <img class="groupImg" width="40" height="40" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                    <span class="groupName">Flocks by blocks</span>
+                </h5>
+                <p class="text-muted fs-6">
+                    <span>posted by - jwilson022 - Thu 10:02 </span>
+                </p>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="./js/feed.js" type="text/javascript"></script>

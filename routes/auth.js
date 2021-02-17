@@ -25,7 +25,7 @@ router.get('/logout', (req, res) => {
 
 // New type of post route using  passport, we essentially let passport do the heavy work on authenicating users.
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/feed',
   successFlash: `Successfully Logged In.`,
   failureRedirect: '/auth/login',
   failureFlash: `Email or password is incorrect. Please try again.`
@@ -65,7 +65,7 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
       // If the user was created, then take them to the homepage to view content.
       // next we can send a flash message.
       const successObject = {
-        successRedirect: '/',
+        successRedirect: '/feed',
         successFlash: `Welcome ${user.userName}. Account created successfuly.`
       }
       // password authenicate

@@ -26,6 +26,18 @@ header {
   list-style-type: "✓ ";
 }
 
+#contentCreation .option {
+  transition: 1s;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;
