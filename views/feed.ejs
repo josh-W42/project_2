@@ -1,16 +1,17 @@
+<!-- The feed displays posts from groups made by people. -->
 <div id="feedContainer" class="container d-flex justify-content-center">
     <div class="row">
         <% if (currentUser) { %>
             <section id="userNav">
                 <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">Followers</button>
+                        <button class="nav-link collapse-option" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">Followers</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">Flocks</button>
+                        <button class="nav-link collapse-option" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">Flocks</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">Collections</button>
+                        <button class="nav-link collapse-option" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">Collections</button>
                     </li>
                 </ul>
                 <div class="row">
@@ -53,13 +54,12 @@
         <section id="postContainer" class="col bg-dark">
             <% if (currentUser) { %>
                 <div class="card">
-                    <div id="contentCreation" class="card-body d-flex justify-content-between">
-                        <button type="button" id="newButton" class="btn btn-outline-dark rounded-pill">+ NEW</button>
-                        <button type="button" class="btn btn-outline-dark option invisible" data-bs-toggle="modal" data-bs-target="#newPostModal">POST</button>
-                        <button type="button" class="btn btn-outline-dark option invisible">FLOCK</button>
+                    <div id="contentCreation" class="card-body d-flex justify-content-center">
+                        <button type="button" id="newButton" class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#newFlockModal">+ NEW FLOCK</button>
+                        <!-- will need later <button type="button" class="btn btn-outline-dark option invisible" data-bs-toggle="modal" data-bs-target="#newPostModal">POST</button> -->
                     </div>
                 </div>
-                <%- include('partials/modals') %>           
+                <%- include('partials/modals') %>
             <% } %>
             <div class="card ml-3">
                 <h5 class="card-header">
