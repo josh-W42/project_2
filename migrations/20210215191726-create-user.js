@@ -35,6 +35,9 @@ module.exports = {
       isPrivate: {
         type: Sequelize.BOOLEAN
       },
+      followers: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         isEmail: {
           args: true,
@@ -32,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     userName: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         len: {
           args: [1,50],
@@ -74,7 +76,10 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    isPrivate: DataTypes.BOOLEAN
+    isPrivate: DataTypes.BOOLEAN,
+    followers: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER)
+    },
   }, {
     sequelize,
     modelName: 'user',
@@ -97,6 +102,14 @@ module.exports = (sequelize, DataTypes) => {
       User.key = user.generateSalt();
       User.password = encryptPassword(User.password(), User.key());
     }
+  }
+
+  // Useful to prevent password and key leaks
+  user.toJSON = function() {
+    let userData = this.get();
+    delete userData.password;
+    delete userData.key;
+    return userData;
   }
   
   user.addHook('beforeCreate', user => setSaltAndPassword(user));
