@@ -25,6 +25,10 @@
 
         // This should self close containers (i.e. followers, flocks, collections) when new ones are opened.
         const collaspeArray = document.querySelectorAll('#userNav .collapse-option');
+        if (screen.width >= 1200) {
+            const firstShown = document.querySelector(`${collaspeArray[0].dataset.bsTarget}`);
+            let firstCollaspe = new bootstrap.Collapse(firstShown);
+        }
         collaspeArray.forEach(collaspe => {
             let id = collaspe.dataset.bsTarget;
             let targetCollaspe = document.querySelector(`${id}`);

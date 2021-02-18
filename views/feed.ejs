@@ -3,15 +3,23 @@
     <div class="row">
         <% if (currentUser) { %>
             <section id="userNav">
+                <div class="btn-group d-flex justify-content-between" id="myTab" role="tablist" aria-label="Button group for post">
+                    <button class="collapse-option btn btn-outline-dark" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">
+                        <i class="fas fa-user-friends"></i><span class="ms-1">Followers</span>
+                    </button>
+                    <button class="collapse-option btn btn-outline-dark" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">
+                        <i class="fas fa-dove"></i><span class="ms-1">Flocks</span>
+                    </button>
+                    <button class="collapse-option btn btn-outline-dark" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">
+                        <i class="fas fa-bookmark"></i><span class="ms-1">Collections</span>
+                    </button>
+                </div>
                 <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link collapse-option" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">Followers</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link collapse-option" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">Flocks</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link collapse-option" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">Collections</button>
                     </li>
                 </ul>
                 <div class="row">
@@ -51,7 +59,7 @@
                 </div>
             </section>
         <% } %>
-        <section id="postContainer" class="col bg-dark">
+        <section id="postContainer" class="col rounded-3 bg-light">
             <% if (currentUser) { %>
                 <div class="card m-3 rounded-pill">
                     <div id="contentCreation" class="card-body d-flex justify-content-center">
@@ -60,7 +68,7 @@
                     </div>
                 </div>
                 <% } %>
-                <div class="card post m-sm-3 rounded">
+                <div class="card post m-sm-3 rounded border-2">
                     <h5 class="card-header">
                         <div class="row">
                             <div class="col groupInfo">
@@ -73,7 +81,7 @@
                         </div>
                     </h5>
                     <p class="text-muted fs-6">
-                        <span>posted by - jwilson022 - Thu 10:02 </span>
+                        <span class="ms-2">posted by - jwilson022 - Thu 10:02 </span>
                     </p>
                     <div class="post-content card-body">
                         <p class="card-text">
