@@ -1,3 +1,4 @@
+/* General css */
 
 html, body {
   width: 100%;
@@ -26,9 +27,6 @@ header {
   list-style-type: "✓ ";
 }
 
-#contentCreation .option {
-  transition: 1s;
-}
 
 .invisible {
   opacity: 0;
@@ -36,6 +34,16 @@ header {
 
 .visible {
   opacity: 1;
+}
+
+.toast-container {
+  bottom: 0;
+}
+
+/* For Feed page */
+
+#contentCreation .option {
+  transition: 1s;
 }
 
 #userNav {
@@ -74,14 +82,24 @@ header {
   min-width: 100%;
 }
 
+/* For profile page */
+
+.profileImg {
+  width: 75px;
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;
   }
+  .toast-container {
+    bottom: auto;
+    top: 20%;
+  }
   #postContainer .collections {
     text-align: end;
   }
-  .groupName {
+  #postContainer .groupName {
     font-size: medium;
   }
   #postContainer .wingModifyBtns {
@@ -90,11 +108,17 @@ header {
   #postContainer .post {
     min-width: 95%;
   }
+  .profileImg {
+    width: 75px;
+  }
 }
 
 @media screen and (min-width: 1200px) {
   header {
     margin-top: 10%;
+  }
+  .toast-container {
+    top: 10%;
   }
   #userNav {
     position: fixed;
@@ -109,5 +133,8 @@ header {
     max-width: 50%;
     margin: auto;
     min-width: 50%;
+  }
+  .profileImg {
+    width: 100px;
   }
 }
