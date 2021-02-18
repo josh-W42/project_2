@@ -38,14 +38,76 @@ header {
   opacity: 1;
 }
 
+#userNav {
+  margin: 0;
+}
+
+#postContainer .post-content {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+#postContainer .wings {
+  text-align: end;
+  font-size: medium;
+  width: 30%;
+  align-self: center;
+}
+
+#postContainer .groupInfo {
+  width: 70%;
+}
+
+#postContainer .groupName {
+  font-size: medium;
+}
+
+#postContainer .postImage {
+  width: 100%;
+}
+
+#postContainer {
+  min-width: 100%;
+}
+
+#postContainer .post {
+  min-width: 100%;
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;
+  }
+  #postContainer .collections {
+    text-align: end;
+  }
+  .groupName {
+    font-size: medium;
+  }
+  #postContainer .wingModifyBtns {
+    text-align: center;
+  }
+  #postContainer .post {
+    min-width: 95%;
   }
 }
 
 @media screen and (min-width: 1200px) {
   header {
     margin-top: 10%;
+  }
+  #userNav {
+    position: fixed;
+    top: 20%;
+    left: 0%;
+    width: 25%;
+  }
+  .groupName {
+    font-size: large;
+  }
+  #postContainer {
+    max-width: 50%;
+    margin: auto;
+    min-width: 50%;
   }
 }
