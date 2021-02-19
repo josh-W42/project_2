@@ -53,7 +53,13 @@ app.get('/', (req, res) => {
 
 app.use('/auth', require('./routes/auth'));
 app.use('/feed', require('./routes/feed'));
-app.use('/users', require('./routes/users'))
+app.use('/users', require('./routes/users'));
+app.use('/flocks', require('./routes/flocks'));
+
+app.get('*', (req, res) => {
+  req.flash('error', "Page does not exist.");
+  res.redirect('/');
+});
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
