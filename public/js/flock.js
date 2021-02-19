@@ -1,9 +1,10 @@
 (() => {
-    const bootstrap = window.bootstrap;
     const userNav = document.querySelector('#userNav');
-
-    // Check if a user is logged in.
+    const bootstrap = window.bootstrap;
+    
+    // Check if this is a logged in user.
     if (userNav) {
+
         // This should self close containers (i.e. followers, flocks, collections) when new ones are opened.
         const collaspeArray = document.querySelectorAll('#userNav .collapse-option');
         collaspeArray.forEach(collaspe => {
@@ -23,17 +24,17 @@
                 });
             });
         });
-    
-        // Toggles privacy information.
-        document.querySelector('#profile-privacy').addEventListener('change', e => {
-            document.querySelector('#publicInfo').classList.toggle('hidden');
-            document.querySelector('#privateInfo').classList.toggle('hidden');
-        });
+
+        // Toggles privacy information. might need later
+        // document.querySelector('#flock-privacy').addEventListener('change', e => {
+        //     document.querySelector('#publicInfo').classList.toggle('hidden');
+        //     document.querySelector('#privateInfo').classList.toggle('hidden');
+        // });
         
-        document.querySelector('#profile-image').addEventListener('change', e => {
-            if (e.target.files.length > 0) {
-                document.querySelector('#imagePreview').src = URL.createObjectURL(e.target.files[0]);
-            }
-        });
+        // document.querySelector('#flock-image').addEventListener('change', e => {
+        //     if (e.target.files.length > 0) {
+        //         document.querySelector('#imagePreview').src = URL.createObjectURL(e.target.files[0]);
+        //     }
+        // });        
     }
 })()

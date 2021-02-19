@@ -128,18 +128,18 @@ header {
   .toast-container {
     top: 15%;
   }
+  #userNav {
+    position: fixed;
+    top: 20%;
+    left: 75%;
+    width: 25%;
+  }
   #feedContainer #userNav,
   #profileContainer #userInfo,
   #flockContainer #flockInfo {
     position: fixed;
     top: 20%;
     left: 0%;
-    width: 25%;
-  }
-  #profileContainer #userNav {
-    position: fixed;
-    top: 20%;
-    left: 75%;
     width: 25%;
   }
   .groupName {
