@@ -1,6 +1,6 @@
 const isLoggedIn = (req, res, next) => {
     if (!req.user) {
-        req.flash('error', 'You must be signed in to access this page');
+        req.flash('error', 'You must be signed in to do that.');
         res.redirect('/auth/login');
     } else {
         next();
