@@ -1,7 +1,7 @@
 {
-  "name": "express-authentication",
+  "name": "crane",
   "version": "1.0.0",
-  "description": "This is express authentication",
+  "description": "Crane is a social media web application.",
   "main": "server.js",
   "directories": {
     "test": "test"
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/romebell/express-authentication.git"
+    "url": "https://github.com/josh-W42/crane"
   },
-  "author": "Rome Bell",
+  "author": "Joshua Wilson",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/romebell/express-authentication/issues"
+    "url": "https://github.com/josh-W42/crane/issues"
   },
-  "homepage": "https://github.com/romebell/express-authentication#readme",
+  "homepage": "https://github.com/josh-W42/crane#readme",
   "dependencies": {
     "axios": "^0.21.0",
     "cloudinary": "^1.24.0",
@@ -35,7 +35,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
