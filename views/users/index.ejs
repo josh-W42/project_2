@@ -15,7 +15,6 @@
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <% let followerList = []; %> 
                     <% if (bio) { %>
                         <p class="card-text">
                             <%= bio %>
@@ -23,7 +22,7 @@
                     <% } else if (currentUser && currentUser.id === id) { %>
                         <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Want a Bio?</button>
                     <% } %>
-                    <p class="text-center"><%= followerList.length %>  Followers</p>
+                    <p class="text-center"><%= followers.length %>  Followers</p>
                     <% if (currentUser && currentUser.id !== id) { %>
                         <% if (currentUser && currentUser.followers.includes(id)) { %>
                             <button class="btn btn-dark" disabled>Following</button>
@@ -56,7 +55,7 @@
                     <div class="collapse multi-collapse" id="followers">
                         <div class="card card-body">
                             <ul class="list-group list-group-flush">
-                                <% followerList.forEach(follower => { %>
+                                <% followers.forEach(follower => { %>
                                     <li class="list-group-item"><%= follower.userName %></li>
                                 <% }) %>
                             </ul>

@@ -135,8 +135,7 @@ header {
     left: 0%;
     width: 25%;
   }
-  #profileContainer #userNav,
-  #feedContainer #userNav {
+  #profileContainer #userNav {
     position: fixed;
     top: 20%;
     left: 75%;
