@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // A user can be a member of many flocks.
-      models.uesr.hasMany(models.member);
+      models.user.hasMany(models.member);
     }
   };
   user.init({
