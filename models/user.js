@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   user.init({
     firstName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     lastName: {
       type: DataTypes.STRING,
@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         len: {
           args: [1,50],
           msg: "UserName must be between 1-50 characters.",
+        },
+        isAlphanumeric: {
+          args: true,
+          msg: "Username must not contain special characters. i.e. $, %, #"
         },
       },
     },

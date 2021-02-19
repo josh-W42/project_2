@@ -1,0 +1,17 @@
+<div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteProfileModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Account?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">Warning: This action is permanent.</p>
+                <form class="text-center" method="POST" action="/users/<%= currentUser.userName %>/?_method=DELETE">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">GO BACK</button>
+                    <input class="btn btn-danger" type="submit" value="CONFRIM DELETE" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

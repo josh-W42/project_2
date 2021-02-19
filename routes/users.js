@@ -9,6 +9,7 @@ const uploads = multer({ dest: './uploads' });
 const cloudinary = require('cloudinary');
 const passport = require('passport');
 
+// Get a user's homepage
 router.get('/:userName', async(req, res) => {
     try {
         const userName = req.params.userName;
@@ -20,7 +21,7 @@ router.get('/:userName', async(req, res) => {
         res.redirect(`/`);
     }
 });
-
+// An edit route for users.
 router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req, res) => {
     let { email, userName, firstName, lastName, isPrivate, bio } = req.body;
     let { id } = req.user.get();
@@ -101,7 +102,19 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
         }
         res.redirect(`/users/${req.params.userName}`);
     }
+});
 
+// Delete a user.
+router.delete('/:userName/remove', isUpdatingSelf, async(req, res) => {
+    try {
+        const user = await db.user.findOne({ where: { userName: req.params.userName } });
+        await user.destroy();
+        req.flash('success', `Account Deleted. Goodbye, ${req.params.userName}.`);
+        res.redirect('/feed');
+    } catch (error) {
+        req.flash('error', 'An error occured when deleting. Please try again.');
+        res.redirect(`/users/${req.params.userName}`);
+    }
 });
 
 module.exports = router;

@@ -33,7 +33,7 @@
                         <% } %>
                     <% } else if (currentUser && currentUser.id === id) { %>
                         <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
-                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Delete Account</button>
+                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#deleteProfileModal">Delete Account</button>
                     <% } %> 
                 </div>
             </div>
@@ -133,4 +133,5 @@
 </section>
 <% if (currentUser && currentUser.id === id) { %>
     <%- include('../partials/modals/editProfile') %>
+    <%- include('../partials/modals/deleteProfile') %>
 <% } %>
