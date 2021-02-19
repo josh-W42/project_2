@@ -18,22 +18,22 @@
                     <div class="collapse multi-collapse" id="followers">
                         <div class="card card-body">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">BillyBilson</li>
-                                <li class="list-group-item">James43</li>
-                                <li class="list-group-item">yourCoolFam</li>
-                                <li class="list-group-item">agent47</li>
-                                <li class="list-group-item">jimPickens</li>
+                                <% currentUser.followers.forEach(follower => { %>
+                                    <li class="list-group-item"><%= follower %></li>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>
                     <div class="collapse multi-collapse" id="flocks">
                         <div class="card card-body">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">trueCranes</li>
-                                <li class="list-group-item">SubsNotDubs</li>
-                                <li class="list-group-item">narutoFanz</li>
-                                <li class="list-group-item">stockFlock100</li>
-                                <li class="list-group-item">Bills</li>
+                                <% flocks.forEach(flock => { %>
+                                    <li class="list-group-item">
+                                        <a class="link" href="/flocks/<%= flock.name %> ">
+                                            <%= flock.name %>
+                                        </a>
+                                    </li>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>

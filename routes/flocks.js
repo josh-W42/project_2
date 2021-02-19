@@ -16,7 +16,25 @@ router.get('/:name', async(req, res) => {
             where: { name },
             include: [db.member],
         });
-        res.render('./flocks', { flock });
+
+        // for user navigation
+        let flocks = [];
+        if (req.user) {
+            try {
+                const user = await db.user.findByPk(req.user.id, {
+                    include: [db.member],
+                });
+                const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
+                const flocks = await Promise.all(promises);
+    
+                res.render('./flocks', { flock, flocks });
+            } catch (error) {
+                req.flash('error', "error when finding members");
+                res.redirect('/');
+            }
+        } else {
+            res.render('./flocks', { flock, flocks });
+        }
     } catch (error) {
         req.flash('error', 'Flock does not exist.');
         res.redirect('/feed');

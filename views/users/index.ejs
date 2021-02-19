@@ -64,11 +64,13 @@
                     <div class="collapse multi-collapse" id="flocks">
                         <div class="card card-body">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">trueCranes</li>
-                                <li class="list-group-item">SubsNotDubs</li>
-                                <li class="list-group-item">narutoFanz</li>
-                                <li class="list-group-item">stockFlock100</li>
-                                <li class="list-group-item">Bills</li>
+                                <% flocks.forEach(flock => { %>
+                                    <li class="list-group-item">
+                                        <a class="link" href="/flocks/<%= flock.name %> ">
+                                            <%= flock.name %>
+                                        </a>
+                                    </li>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>

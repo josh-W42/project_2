@@ -13,9 +13,27 @@ const passport = require('passport');
 router.get('/:userName', async(req, res) => {
     try {
         const userName = req.params.userName;
-        const user = await db.user.findOne({ where: { userName } });
+        const user = await db.user.findOne({ 
+            where: { userName },
+            include: [db.member]
+        });
         let { id, firstName, lastName, imageUrl, bio, isPrivate, followers, createdAt } = user;
-        res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt });
+        let flocks = [];
+
+        // We have to load in information about the user if they are viewing their own profile.
+        if (req.user && req.user.id === id) {
+            try {
+                const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
+                flocks = await Promise.all(promises);
+    
+                res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks });
+            } catch (error) {
+                req.flash('error', "error when finding members");
+                res.redirect('/');
+            }
+        } else {
+            res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks });
+        }
     } catch (error) {
         req.flash('error', 'User does not exist');
         res.redirect(`/`);
