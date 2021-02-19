@@ -22,7 +22,7 @@ router.get('/:userName', async(req, res) => {
 });
 
 router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req, res) => {
-    let { email, userName, firstName, lastName, isPrivate } = req.body;
+    let { email, userName, firstName, lastName, isPrivate, bio } = req.body;
     let { id } = req.user.get();
     // Check private value
     isPrivate = isPrivate ? true : false;
@@ -55,6 +55,7 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
         user.firstName = firstName;
         user.lastName = lastName;
         user.isPrivate = isPrivate;
+        user.bio = bio;
 
         // Check if user inputed an image and process it.
         if (req.file) {

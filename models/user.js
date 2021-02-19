@@ -78,7 +78,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     isPrivate: DataTypes.BOOLEAN,
     followers: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER)
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      get() {
+        return this.getDataValue('followers').map(id => user.findByPk(id));
+      },
     },
   }, {
     sequelize,

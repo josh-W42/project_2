@@ -1,41 +1,45 @@
 <section id="profileContainer">
     <div class="row">
-        <section id="userNav">
-            <div id="userInfo">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <h1 class="card-title fs-5">
-                                    <img class="profileImg shadow border-2 rounded-circle me-4" src="<%= imageUrl %>" alt="Profile photo for " />
-                                    <%= userName %>
-                                </h1>
-                                <% let creationDate = new Date(createdAt)%> 
-                                <h3 class="card-subtitle mb-2 fs-6 text-muted">Member Since: <%= creationDate.toDateString() %> </h3>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="card-body text-center">
-                        <% if (bio) { %>
-                            <p class="card-text">
-                                <%= bio %>
-                            </p>
-                        <% } else if (currentUser && currentUser.id === id) { %>
-                            <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Want a Bio?</button>
-                        <% } %>
-                        <p class="text-center"><%= followers.length %>  Followers</p>
-                        <% if (currentUser && currentUser.id !== id) { %>
-                            <% if (currentUser && currentUser.followers.includes(id)) { %>
-                                <button class="btn btn-dark" disabled>Following</button>
-                            <% } else if (isPrivate) { %>
-                                <button class="btn btn-outline-dark">Request to Follow</button>
-                            <% } else { %> 
-                                <button class="btn btn-outline-dark rounded-pill">Follow</button>
-                            <% } %> 
-                        <% } %>
+        <section id="userInfo">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="card-title fs-5">
+                                <img class="profileImg shadow border-2 rounded-circle me-4" src="<%= imageUrl %>" alt="Profile photo for " />
+                                <%= userName %>
+                            </h1>
+                            <% let creationDate = new Date(createdAt)%> 
+                            <h3 class="card-subtitle mb-2 fs-6 text-muted">Member Since: <%= creationDate.toDateString() %> </h3>
+                        </div> 
                     </div>
                 </div>
+                <div class="card-body text-center">
+                    <% let followerList = []; %> 
+                    <% if (bio) { %>
+                        <p class="card-text">
+                            <%= bio %>
+                        </p>
+                    <% } else if (currentUser && currentUser.id === id) { %>
+                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Want a Bio?</button>
+                    <% } %>
+                    <p class="text-center"><%= followerList.length %>  Followers</p>
+                    <% if (currentUser && currentUser.id !== id) { %>
+                        <% if (currentUser && currentUser.followers.includes(id)) { %>
+                            <button class="btn btn-dark" disabled>Following</button>
+                        <% } else if (isPrivate) { %>
+                            <button class="btn btn-outline-dark">Request to Follow</button>
+                        <% } else { %>
+                            <button class="btn btn-outline-dark rounded-pill">Follow</button>
+                        <% } %>
+                    <% } else if (currentUser && currentUser.id === id) { %>
+                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
+                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Delete Account</button>
+                    <% } %> 
+                </div>
             </div>
+        </section>
+        <section id="userNav">
             <% if (currentUser && currentUser.id === id) { %>
                 <div class="btn-group d-flex justify-content-between" id="myTab" role="tablist" aria-label="Button group for post">
                     <button class="collapse-option btn btn-outline-dark" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">
@@ -52,11 +56,9 @@
                     <div class="collapse multi-collapse" id="followers">
                         <div class="card card-body">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">BillyBilson</li>
-                                <li class="list-group-item">James43</li>
-                                <li class="list-group-item">yourCoolFam</li>
-                                <li class="list-group-item">agent47</li>
-                                <li class="list-group-item">jimPickens</li>
+                                <% followerList.forEach(follower => { %>
+                                    <li class="list-group-item"><%= follower.userName %></li>
+                                <% }) %>
                             </ul>
                         </div>
                     </div>

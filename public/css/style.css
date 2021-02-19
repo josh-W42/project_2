@@ -39,8 +39,8 @@ header {
   bottom: 0;
 }
 
-#userNav .collapse {
-  max-height: 200px;
+#profileContainer #userNav .collapse {
+  max-height: 300px;
   overflow-y: scroll;
 }
 
@@ -92,6 +92,10 @@ header {
   width: 75px;
 }
 
+#editProfileModal .validators {
+  list-style-position: inside;
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;
@@ -124,12 +128,21 @@ header {
   .toast-container {
     top: 10%;
   }
-  #userNav {
+  #feedContainer #userNav,
+  #profileContainer #userInfo {
     position: fixed;
     top: 20%;
     left: 0%;
     width: 25%;
   }
+  #profileContainer #userNav,
+  #feedContainer #userNav {
+    position: fixed;
+    top: 20%;
+    left: 75%;
+    width: 25%;
+  }
+
   .groupName {
     font-size: large;
   }

@@ -4,24 +4,6 @@
     
     // Check if this is a logged in user.
     if (userNav) {
-        
-        const newButton = document.querySelector('#newButton');
-        const newContentBtns = document.querySelectorAll('#contentCreation .option');
-
-        // Applying animations to new content buttons.
-        newButton.addEventListener('click', e => {
-            newContentBtns.forEach(button => {
-                button.classList.replace('invisible', 'visible');
-            });
-        });
-
-        newButton.addEventListener('blur', e => {
-            setTimeout(() => {
-                newContentBtns.forEach(button => {
-                    button.classList.replace('visible', 'invisible');
-                });
-            }, 1000);
-        });
 
         // This should self close containers (i.e. followers, flocks, collections) when new ones are opened.
         const collaspeArray = document.querySelectorAll('#userNav .collapse-option');
