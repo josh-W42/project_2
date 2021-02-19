@@ -111,7 +111,7 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
 });
 
 // Delete a user.
-router.delete('/:userName/remove', isUpdatingSelf, async(req, res) => {
+router.delete('/:userName', isUpdatingSelf, async(req, res) => {
     try {
         const user = await db.user.findOne({ where: { userName: req.params.userName } });
         await user.destroy();

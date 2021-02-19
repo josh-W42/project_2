@@ -18,11 +18,9 @@ passport.deserializeUser(async(id, callback) => {
         } else {
             throw Error('No user found!');
         }
-    } catch (error) {
-        console.log('\n############## ERROR:\n');
-        console.log('An error has occured when deserializing a user: ')
+    } catch (error) {   
         console.log(error);
-        console.log('\n############## END \n');
+        callback(null, null);
     }
 });
 
@@ -41,10 +39,8 @@ passport.use(new LocalStrategy({
             callback(null, user);
         }
     } catch (error) {
-        console.log('\n############## ERROR:\n');
-        console.log('An error has occured when using passport to authenicate a user: ')
         console.log(error);
-        console.log('\n############## END \n');        
+        callback(null, null);
     }
 }));
 
