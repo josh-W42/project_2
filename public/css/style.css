@@ -27,7 +27,6 @@ header {
   list-style-type: "✓ ";
 }
 
-
 .invisible {
   opacity: 0;
 }
@@ -38,6 +37,11 @@ header {
 
 .toast-container {
   bottom: 0;
+}
+
+#userNav .collapse {
+  max-height: 200px;
+  overflow-y: scroll;
 }
 
 /* For Feed page */

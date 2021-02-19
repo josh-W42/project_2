@@ -36,7 +36,7 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
   let { email, password, userName, firstName, lastName, isPrivate } = req.body;
   // Check private value
   isPrivate = isPrivate ? true : false;
-  
+
   // First see if you can process the image.
   // Check if user inputed an image.
   let image = undefined;
@@ -53,12 +53,12 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
   } else {
     imageUrl = "https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png";
   }
-  
+
   // now we try to find a user
   try {
     const [user, created] = await db.user.findOrCreate({
       where: { email },
-      defaults: { firstName, lastName, password, userName, isPrivate, imageUrl }
+      defaults: { firstName, lastName, password, userName, isPrivate, imageUrl, followers: [], }
     });
 
     if (created) {
@@ -75,9 +75,13 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
       res.redirect('/auth/signup');
     }
   } catch (error) {
-    error.errors.forEach(error => {
-      req.flash('error', error.message);
-    });
+    if (error.errors) {
+      error.errors.forEach(error => {
+        req.flash('error', error.message);
+      });
+    } else {
+      req.flash('error', "An error occured on signup, please try again.")
+    }
     res.redirect('/auth/signup');
   }
 });

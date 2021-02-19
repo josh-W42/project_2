@@ -1,14 +1,135 @@
-<section id="profileSection">
-    <div></div>
+<section id="profileContainer">
+    <div class="row">
+        <section id="userNav">
+            <div id="userInfo">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="card-title fs-5">
+                                    <img class="profileImg shadow border-2 rounded-circle me-4" src="<%= imageUrl %>" alt="Profile photo for " />
+                                    <%= userName %>
+                                </h1>
+                                <% let creationDate = new Date(createdAt)%> 
+                                <h3 class="card-subtitle mb-2 fs-6 text-muted">Member Since: <%= creationDate.toDateString() %> </h3>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <% if (bio) { %>
+                            <p class="card-text">
+                                <%= bio %>
+                            </p>
+                        <% } else if (currentUser && currentUser.id === id) { %>
+                            <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editProfileModal">Want a Bio?</button>
+                        <% } %>
+                        <p class="text-center"><%= followers.length %>  Followers</p>
+                        <% if (currentUser && currentUser.id !== id) { %>
+                            <% if (currentUser && currentUser.followers.includes(id)) { %>
+                                <button class="btn btn-dark" disabled>Following</button>
+                            <% } else if (isPrivate) { %>
+                                <button class="btn btn-outline-dark">Request to Follow</button>
+                            <% } else { %> 
+                                <button class="btn btn-outline-dark rounded-pill">Follow</button>
+                            <% } %> 
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <% if (currentUser && currentUser.id === id) { %>
+                <div class="btn-group d-flex justify-content-between" id="myTab" role="tablist" aria-label="Button group for post">
+                    <button class="collapse-option btn btn-outline-dark" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">
+                        <i class="fas fa-user-friends"></i><span class="ms-1">Followers</span>
+                    </button>
+                    <button class="collapse-option btn btn-outline-dark" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">
+                        <i class="fas fa-dove"></i><span class="ms-1">Flocks</span>
+                    </button>
+                    <button class="collapse-option btn btn-outline-dark" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">
+                        <i class="fas fa-bookmark"></i><span class="ms-1">Collections</span>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="collapse multi-collapse" id="followers">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">BillyBilson</li>
+                                <li class="list-group-item">James43</li>
+                                <li class="list-group-item">yourCoolFam</li>
+                                <li class="list-group-item">agent47</li>
+                                <li class="list-group-item">jimPickens</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="collapse multi-collapse" id="flocks">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">trueCranes</li>
+                                <li class="list-group-item">SubsNotDubs</li>
+                                <li class="list-group-item">narutoFanz</li>
+                                <li class="list-group-item">stockFlock100</li>
+                                <li class="list-group-item">Bills</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="collapse multi-collapse" id="collections">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">animeFlocks</li>
+                                <li class="list-group-item">softwareEngineering</li>
+                                <li class="list-group-item">jobSearch101</li>
+                                <li class="list-group-item">freelanceTips</li>
+                                <li class="list-group-item">pizzaPlaces</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </section>
+        <section id="postContainer" class="col rounded-3 bg-light">
+            <div class="card post m-sm-3 rounded border-2">
+                <h5 class="card-header">
+                    <div class="row">
+                        <div class="col groupInfo">
+                            <img class="groupImg" width="40" height="40" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                            <span class="groupName">Flocks by blocks</span>
+                        </div>
+                        <div class="wings col-3">
+                            <span>+ 100 <i class="fas fa-feather-alt"></i></span>
+                        </div>
+                    </div>
+                </h5>
+                <p class="text-muted fs-6">
+                    <span class="ms-2">posted by - jwilson022 - Thu 10:02 </span>
+                </p>
+                <div class="post-content card-body">
+                    <p class="card-text">
+                        With supporting text below as a natural lead-in to additional content.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                    </p>
+                    <img class="postImage img-thumbnail" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group d-flex" role="group" aria-label="Button group for post">
+                        <button type="button" class="btn btn-outline-dark">
+                            10 <i class="far fa-comment-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </section>
-
-<% if (!currentUser) { %>
-    <h2>You need to login first</h2>
-<% } else { %>
-    <h2>Profile Page</h2>
-    
-    <h3>Welcome to your PROFILE</h3>
-
-    id: <%= id %>
-    name: <%= name %>
-<% } %> 
+<% if (currentUser && currentUser.id === id) { %>
+    <%- include('../partials/modals/editProfile') %>
+<% } %>
