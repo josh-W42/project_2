@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   flock.init({
     name: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         len: {
           args: [1,50],
@@ -32,8 +33,10 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.TEXT,
       validate: {
-        len: [1, 1000],
-        msg: "Flock descriptions cannot be longer than 1000 characters."
+        len: {
+          args: [1, 1000],
+          msg: "Flock descriptions cannot be longer than 1000 characters.",
+        },
       },
     },
     imageUrl: {

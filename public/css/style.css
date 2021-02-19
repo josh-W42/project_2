@@ -129,7 +129,8 @@ header {
     top: 15%;
   }
   #feedContainer #userNav,
-  #profileContainer #userInfo {
+  #profileContainer #userInfo,
+  #flockContainer #flockInfo {
     position: fixed;
     top: 20%;
     left: 0%;
@@ -141,7 +142,6 @@ header {
     left: 75%;
     width: 25%;
   }
-
   .groupName {
     font-size: large;
   }

@@ -1,0 +1,71 @@
+<section id="flockContainer">
+    <div class="row">
+        <section id="flockInfo">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="card-title fs-5">
+                                <img class="profileImg shadow border-2 rounded-circle me-4" src="<%= flock.imageUrl %>" alt="flock photo for <%= flock.name %>  " />
+                                <%= flock.name %>
+                            </h1>
+                            <% let creationDate = new Date(flock.createdAt)%> 
+                            <h3 class="card-subtitle mb-2 fs-6 text-muted">Established On: <%= creationDate.toDateString() %> </h3>
+                        </div> 
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <% if (flock.description) { %>
+                        <p class="card-text">
+                            <%= flock.description %>
+                        </p>
+                    <% } %> 
+                    <p class="text-center"><%= flock.members.length %> Members</p>
+                </div>
+            </div>
+        </section>
+        <section id="postContainer" class="col rounded-3 bg-light">
+            <div class="card post m-sm-3 rounded border-2">
+                <h5 class="card-header">
+                    <div class="row">
+                        <div class="col groupInfo">
+                            <img class="groupImg" width="40" height="40" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                            <span class="groupName">Flocks by blocks</span>
+                        </div>
+                        <div class="wings col-3">
+                            <span>+ 100 <i class="fas fa-feather-alt"></i></span>
+                        </div>
+                    </div>
+                </h5>
+                <p class="text-muted fs-6">
+                    <span class="ms-2">posted by - jwilson022 - Thu 10:02 </span>
+                </p>
+                <div class="post-content card-body">
+                    <p class="card-text">
+                        With supporting text below as a natural lead-in to additional content.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                    </p>
+                    <img class="postImage img-thumbnail" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group d-flex" role="group" aria-label="Button group for post">
+                        <button type="button" class="btn btn-outline-dark">
+                            10 <i class="far fa-comment-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
