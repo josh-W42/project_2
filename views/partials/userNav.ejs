@@ -1,0 +1,50 @@
+<section id="userNav">
+    <% if (currentUser) { %>
+        <div class="btn-group d-flex justify-content-between" id="myTab" role="tablist" aria-label="Button group for post">
+            <button class="collapse-option btn btn-outline-dark" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">
+                <i class="fas fa-user-friends"></i><span class="ms-1">Followers</span>
+            </button>
+            <button class="collapse-option btn btn-outline-dark" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">
+                <i class="fas fa-dove"></i><span class="ms-1">Flocks</span>
+            </button>
+            <button class="collapse-option btn btn-outline-dark" id="collections-collapse" data-bs-toggle="collapse" data-bs-target="#collections" type="button" aria-controls="collections" aria-selected="false">
+                <i class="fas fa-bookmark"></i><span class="ms-1">Collections</span>
+            </button>
+        </div>
+        <div class="row">
+            <div class="collapse multi-collapse" id="followers">
+                <div class="card card-body">
+                    <ul class="list-group list-group-flush">
+                        <% currentUser.followers.forEach(follower => { %>
+                            <li class="list-group-item"><%= follower %></li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+            <div class="collapse multi-collapse" id="flocks">
+                <div class="card card-body">
+                    <ul class="list-group list-group-flush">
+                        <% flocks.forEach(flock => { %>
+                            <li class="list-group-item">
+                                <a class="link" href="/flocks/<%= flock.name %> ">
+                                    <%= flock.name %>
+                                </a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+            <div class="collapse multi-collapse" id="collections">
+                <div class="card card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">animeFlocks</li>
+                        <li class="list-group-item">softwareEngineering</li>
+                        <li class="list-group-item">jobSearch101</li>
+                        <li class="list-group-item">freelanceTips</li>
+                        <li class="list-group-item">pizzaPlaces</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</section>

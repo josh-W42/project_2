@@ -27,13 +27,13 @@ router.get('/:name', async(req, res) => {
                 const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
                 const flocks = await Promise.all(promises);
     
-                res.render('./flocks', { flock, flocks });
+                res.render('./flocks', { flock, flocks, canMake: "flock and post", });
             } catch (error) {
                 req.flash('error', "error when finding members");
                 res.redirect('/');
             }
         } else {
-            res.render('./flocks', { flock, flocks });
+            res.render('./flocks', { flock, flocks, canMake: "flock and post", });
         }
     } catch (error) {
         req.flash('error', 'Flock does not exist.');

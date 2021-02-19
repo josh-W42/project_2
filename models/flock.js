@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // A flock has many members.
       models.flock.hasMany(models.member);
+      // A flock has many posts
+      models.flock.hasMany(models.post);
     }
   };
   flock.init({

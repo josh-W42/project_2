@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // A user can be a member of many flocks.
       models.user.hasMany(models.member);
+      // A user can make many posts.
+      models.user.hasMany(models.post);
     }
   };
   user.init({
