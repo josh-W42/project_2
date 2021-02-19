@@ -51,7 +51,6 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
         const user = await db.user.findByPk(id);
 
         // Keep track of important changes.
-        let emailChanged = false;
         let userNameChanged = false;
         
         // Throw errors for unique values.
@@ -60,7 +59,6 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
             if (testCount > 0) {
                 throw new Error('A user with that email already exists.');
             }
-            emailChanged = true;
         }
         if (user.userName !== userName) {
             const testCount = await db.user.count({ where: { userName }});
@@ -87,23 +85,13 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
             }
         }
 
-        
-        if (emailChanged) {
-            const tryObject = {
-                successRedirect: `/users/${req.params.userName}`,
-                successFlash: `Profile edited successfully.`,
-                failureRedirect: `/users/${req.params.userName}`,
-                failureFlash: `An error occured when updating, please try again.`
-            }
-            passport.authenticate('local', tryObject)(req, res);
+        req.flash('success', 'Profile edited successfully.');
+        if (userNameChanged) {
+            res.redirect(`/users/${user.userName}`);
         } else {
-            req.flash('success', 'Profile edited successfully.');
-            if (userNameChanged) {
-                res.redirect(`/users/${user.userName}`);
-            } else {
-                res.redirect(`/users/${req.params.userName}`);
-            }
+            res.redirect(`/users/${req.params.userName}`);
         }
+    
 
         // Lastly, save your work
         await user.save();
