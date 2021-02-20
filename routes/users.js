@@ -114,6 +114,7 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
 router.delete('/:userName', isUpdatingSelf, async(req, res) => {
     try {
         const user = await db.user.findOne({ where: { userName: req.params.userName } });
+
         await user.destroy();
         req.flash('success', `Account Deleted. Goodbye, ${req.params.userName}.`);
         res.redirect('/feed');
@@ -121,6 +122,12 @@ router.delete('/:userName', isUpdatingSelf, async(req, res) => {
         req.flash('error', 'An error occured when deleting. Please try again.');
         res.redirect(`/users/${req.params.userName}`);
     }
+});
+
+// Unknown get routes.
+router.get('*', (req, res) => {
+    req.flash('error', "Page does not exist.");
+    res.status(404).redirect('/');
 });
 
 module.exports = router;

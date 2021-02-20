@@ -16,6 +16,10 @@ router.get('/:name', async(req, res) => {
             where: { name },
             include: [db.member],
         });
+        
+        if (!flock) {
+            throw new Error('flock does not exist');
+        }
 
         // for user navigation
         let flocks = [];
@@ -101,6 +105,12 @@ router.post('/', uploads.single('image'), isLoggedIn, async(req, res) => {
         req.flash('error', 'An error occured when creating a flock.');
         res.redirect('/feed');
     }
+});
+
+// Unknown get routes.
+router.get('*', (req, res) => {
+    req.flash('error', "Page does not exist.");
+    res.status(404).redirect('/');
 });
 
 

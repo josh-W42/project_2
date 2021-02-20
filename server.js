@@ -20,7 +20,6 @@ app.use(methodOverride('_method'));
 
 // Seesion Middleware
 const SECRET_SESSION = process.env.SECRET_SESSION;
-const isLoggedIn = require('./middleware/isLoggedIn');
 
 // secret: what we actually will be giving to the user on our site as a session coookie
 // resave: Save the session even if it's modified, make this false.
@@ -56,9 +55,10 @@ app.use('/feed', require('./routes/feed'));
 app.use('/users', require('./routes/users'));
 app.use('/flocks', require('./routes/flocks'));
 
+// Unknown get routes.
 app.get('*', (req, res) => {
   req.flash('error', "Page does not exist.");
-  res.redirect('/');
+  res.status(404).redirect('/');
 });
 
 const PORT = process.env.PORT || 3000;

@@ -86,4 +86,10 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
   }
 });
 
+// Unknown get routes.
+router.get('*', (req, res) => {
+  req.flash('error', "Page does not exist.");
+  res.status(404).redirect('/');
+});
+
 module.exports = router;
