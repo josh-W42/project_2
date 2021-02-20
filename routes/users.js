@@ -7,7 +7,6 @@ const db = require('../models');
 const multer = require('multer');
 const uploads = multer({ dest: './uploads' });
 const cloudinary = require('cloudinary');
-const passport = require('passport');
 
 // Get a user's homepage
 router.get('/:userName', async(req, res) => {
@@ -17,22 +16,34 @@ router.get('/:userName', async(req, res) => {
             where: { userName },
             include: [db.member]
         });
+
+        // Check if user exists.
+        if (!user) {
+            throw new Error('User not found.');
+        }
+
         let { id, firstName, lastName, imageUrl, bio, isPrivate, followers, createdAt } = user;
         let flocks = [];
 
+
+        // get all posts related to the user
+        const posts = await user.getPosts({
+            include: [db.user, db.flock]
+        });
         // We have to load in information about the user if they are viewing their own profile.
         if (req.user && req.user.id === id) {
             try {
+                console.log('lol');
                 const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
                 flocks = await Promise.all(promises);
     
-                res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks, canMake: null });
+                res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks, canMake: null, posts });
             } catch (error) {
                 req.flash('error', "error when finding members");
                 res.redirect('/');
             }
         } else {
-            res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks, canMake: null });
+            res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks, canMake: null, posts });
         }
     } catch (error) {
         req.flash('error', 'User does not exist');
@@ -40,7 +51,7 @@ router.get('/:userName', async(req, res) => {
     }
 });
 // An edit route for users.
-router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req, res) => {
+router.put('/:userName/edit', isUpdatingSelf, uploads.single('image'), async(req, res) => {
     let { email, userName, firstName, lastName, isPrivate, bio } = req.body;
     let { id } = req.user.get();
     // Check private value
@@ -113,7 +124,19 @@ router.put('/:userName/edit', uploads.single('image'), isUpdatingSelf, async(req
 // Delete a user.
 router.delete('/:userName', isUpdatingSelf, async(req, res) => {
     try {
-        const user = await db.user.findOne({ where: { userName: req.params.userName } });
+        const user = await db.user.findOne({ 
+            where: { userName: req.params.userName },
+            include: [db.member]
+        });
+
+        if (!user) {
+            throw new Error('No user found');
+        }
+
+        // delete all member rows with this user id.
+        user.members.forEach(async member => {
+            await member.destroy();
+        });
 
         await user.destroy();
         req.flash('success', `Account Deleted. Goodbye, ${req.params.userName}.`);

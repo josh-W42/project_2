@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
+const canPost = require('../middleware/canPost');
+const isLoggedIn = require('../middleware/isLoggedIn');
 
 // Cloudinary
 const multer = require('multer');
 const uploads = multer({ dest: './uploads' });
 const cloudinary = require('cloudinary');
-const isLoggedIn = require('../middleware/isLoggedIn');
 
 // General get route for all flocks.
 router.get('/:name', async(req, res) => {
@@ -20,6 +21,11 @@ router.get('/:name', async(req, res) => {
         if (!flock) {
             throw new Error('flock does not exist');
         }
+
+        // get all posts
+        const posts = await flock.getPosts({
+            include: [db.user, db.flock]
+        });
 
         // for user navigation
         let flocks = [];
@@ -41,13 +47,13 @@ router.get('/:name', async(req, res) => {
                     }
                 });
     
-                res.render('./flocks', { flock, flocks, canMake: "flock and post", role, isMember });
+                res.render('./flocks', { flock, flocks, canMake: "flock and post", role, isMember, posts });
             } catch (error) {
                 req.flash('error', "error when finding members");
                 res.redirect('/');
             }
         } else {
-            res.render('./flocks', { flock, flocks, canMake: "flock and post", isMember: false, role: "non-member" });
+            res.render('./flocks', { flock, flocks, canMake: "flock and post", isMember: false, role: "non-member", posts });
         }
     } catch (error) {
         req.flash('error', 'Flock does not exist.');
@@ -56,7 +62,7 @@ router.get('/:name', async(req, res) => {
 });
 
 // General create route for flocks.
-router.post('/', uploads.single('image'), isLoggedIn, async(req, res) => {
+router.post('/', isLoggedIn, uploads.single('image'), async(req, res) => {
     let { name, description, isPrivate } = req.body;
     // Adjust private value
     isPrivate = isPrivate ? true : false;
@@ -101,9 +107,52 @@ router.post('/', uploads.single('image'), isLoggedIn, async(req, res) => {
             res.redirect('/feed');
         }
     } catch (error) {
-        console.log(error);
-        req.flash('error', 'An error occured when creating a flock.');
+        if (error.errors) {
+            error.errors.forEach(error => {
+              req.flash('error', error.message);
+            });
+          } else {
+            req.flash('error', 'An error occured when creating a flock.');
+          }
         res.redirect('/feed');
+    }
+});
+
+// POST route for when a user makes a new post.
+router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
+    const { content } = req.body;
+    const name = req.params.name;
+    const flock = req.flock; // From canPost.
+
+    // Check if user inputed an image.
+    let image = undefined;
+    let imageUrl = null;
+    if (req.file) {
+      image = req.file.path;
+      try {
+        const result = await cloudinary.uploader.upload(image);
+        imageUrl = result.secure_url;
+      } catch (error) {
+        req.flash('error', 'Could not upload image at this time.');
+      }
+    }
+
+    try {
+        console.log('################');
+        console.log(req.user.id);
+        console.log('################');
+        await flock.createPost({
+            poster: req.user.userName,
+            content,
+            imageUrl,
+            userId: req.user.id,
+            wings: 0,
+        });
+        res.redirect(`/flocks/${name}`);
+    } catch (error) {
+        req.flash('error', `Couldn't create post, please try again.`);
+        res.redirect(`/flocks/${name}`);
+        console.log(error);
     }
 });
 

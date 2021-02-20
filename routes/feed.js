@@ -3,6 +3,11 @@ const router = express.Router();
 const db = require('../models');
 
 router.get('/', async(req, res) => {
+
+    const posts = await db.post.findAll({
+        include: [db.user, db.flock]
+    });
+
     let flocks = [];
     if (req.user) {
         try {
@@ -12,13 +17,13 @@ router.get('/', async(req, res) => {
             const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
             flocks = await Promise.all(promises);
 
-            res.render('./feed', { flocks, canMake: "flock" });
+            res.render('./feed', { flocks, canMake: "flock", posts });
         } catch (error) {
             req.flash('error', "error when finding members");
             res.redirect('/');
         }
     } else {
-        res.render('./feed', { flocks, canMake: "flock" });
+        res.render('./feed', { flocks, canMake: "flock", posts });
     }
 });
 

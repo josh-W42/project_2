@@ -3,35 +3,54 @@
         <%- include('./newContentFlock') %>
     <% } else if (canMake &&  canMake === "flock") { %>
         <%- include('./newContentFeed') %>
-    <% } %> 
+    <% } %>
+    <% if (posts.length < 1) { %>
+        <div class="card m-3 rounded-pill">
+            <div class="card-body d-flex justify-content-around">
+                <h2 class="text-muted fs-3">No Posts Yet!</h2>
+            </div>
+        </div>
+    <% } %>
+    <% posts = posts.reverse() %> 
+    <% posts.forEach(post => { %>
         <div class="card post m-sm-3 rounded border-2">
             <h5 class="card-header">
                 <div class="row">
                     <div class="col groupInfo">
-                        <img class="groupImg" width="40" height="40" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
-                        <span class="groupName">Flocks by blocks</span>
+                        <a class="text-dark" href="/flocks/<%= post.flock.name %> ">
+                            <img class="groupImg" width="40" height="40" src="<%= post.flock.imageUrl %> " alt="flock image" />
+                            <span class="groupName"><%= post.flock.name %> </span>
+                        </a>
                     </div>
                     <div class="wings col-3">
-                        <span>+ 100 <i class="fas fa-feather-alt"></i></span>
+                        <span>
+                            <% if (post.wings >= 0) { %>
+                                +
+                            <% } else { %>
+                                -
+                            <% } %>
+                            <%= post.wings %>  
+                            <i class="fas fa-feather-alt"></i>
+                        </span>
                     </div>
                 </div>
             </h5>
             <p class="text-muted fs-6">
-                <span class="ms-2">posted by - jwilson022 - Thu 10:02 </span>
+                <% let createdDate = new Date(post.createdAt); %>
+                <span class="ms-2">posted by - <a class="text-muted" href="/users/<%= post.poster %>"><%= post.poster %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toLocaleTimeString() %>  </span>
             </p>
             <div class="post-content card-body">
                 <p class="card-text">
-                    With supporting text below as a natural lead-in to additional content.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
+                    <%= post.content %> 
                 </p>
-                <img class="postImage img-thumbnail" width="100" height="100" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                <% if (post.imageUrl) { %>
+                    <img class="postImage img-thumbnail" width="100" height="100" src="<%= post.imageUrl %> " />
+                <% } %>
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex" role="group" aria-label="Button group for post">
                     <button type="button" class="btn btn-outline-dark">
-                        10 <i class="far fa-comment-alt"></i>
+                        <i class="far fa-comment-alt"></i>
                     </button>
                     <button type="button" class="btn btn-outline-dark">
                         <i class="fas fa-plus"></i>
@@ -45,4 +64,5 @@
                 </div>
             </div>
         </div>
+    <% }) %>
     </section>

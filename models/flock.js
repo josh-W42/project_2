@@ -12,9 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // A flock has many members.
-      models.flock.hasMany(models.member);
+      models.flock.hasMany(models.member, { onDelete: 'cascade' });
       // A flock has many posts
-      models.flock.hasMany(models.post);
+      models.flock.hasMany(models.post, { onDelete: 'cascade' });
     }
   };
   flock.init({

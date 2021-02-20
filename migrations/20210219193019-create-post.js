@@ -8,11 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      poster: {
+        type: Sequelize.STRING
+      },
       content: {
         type: Sequelize.TEXT
       },
       imageUrl: {
         type: Sequelize.STRING
+      },
+      isPrivate: {
+        type: Sequelize.BOOLEAN
       },
       wings: {
         type: Sequelize.INTEGER
@@ -23,7 +29,7 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      groupId: {
+      flockId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

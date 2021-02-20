@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   post.init({
+    poster: DataTypes.STRING,
     content: DataTypes.TEXT,
     imageUrl: {
       type: DataTypes.STRING,
@@ -27,10 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
+    isPrivate: DataTypes.BOOLEAN,
     wings: DataTypes.INTEGER,
     hasWinged: DataTypes.ARRAY(DataTypes.INTEGER),
     userId: DataTypes.INTEGER,
-    groupId: DataTypes.INTEGER
+    flockId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'post',

@@ -5,6 +5,10 @@ html, body {
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
 header {
   margin-top: 30%;
 }
@@ -146,9 +150,9 @@ header {
     font-size: large;
   }
   #postContainer {
-    max-width: 50%;
     margin: auto;
-    min-width: 50%;
+    min-width: 50vw;
+    max-width: 50vw;
   }
   .profileImg {
     width: 100px;
