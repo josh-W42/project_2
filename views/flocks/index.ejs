@@ -1,13 +1,5 @@
 <% 
     let creationDate = new Date(flock.createdAt)
-    let isInFlock = user => {
-        for (let i = 0; i < flock.members.length; i++) {
-            if (user.id === flock.members[i].userId) {
-                return true;
-            }
-        }
-        return false;
-    }
 %> 
 <section id="flockContainer">
     <div class="row">
@@ -35,61 +27,13 @@
             </div>
         </section>
         <%- include('../partials/userNav') %>
-        <section id="postContainer" class="col rounded-3 bg-light">
-            <% if (currentUser && isInFlock(currentUser)) { %>
-                <div class="card m-3 rounded-pill">
-                    <div id="contentCreation" class="card-body d-flex justify-content-around">
-                        <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#newFlockModal">+ NEW FLOCK</button>
-                        <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#newPostModal">+ NEW POST</button>
-                    </div>
-                </div>
-            <% } %>
-            <div class="card post m-sm-3 rounded border-2">
-                <h5 class="card-header">
-                    <div class="row">
-                        <div class="col groupInfo">
-                            <img class="groupImg" width="40" height="40" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
-                            <span class="groupName">Flocks by blocks</span>
-                        </div>
-                        <div class="wings col-3">
-                            <span>+ 100 <i class="fas fa-feather-alt"></i></span>
-                        </div>
-                    </div>
-                </h5>
-                <p class="text-muted fs-6">
-                    <span class="ms-2">posted by - jwilson022 - Thu 10:02 </span>
-                </p>
-                <div class="post-content card-body">
-                    <p class="card-text">
-                        With supporting text below as a natural lead-in to additional content.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
-                    </p>
-                    <img class="postImage img-thumbnail" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
-                </div>
-                <div class="card-footer">
-                    <div class="btn-group d-flex" role="group" aria-label="Button group for post">
-                        <button type="button" class="btn btn-outline-dark">
-                            10 <i class="far fa-comment-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-dark">
-                            <i class="fas fa-plus"></i>
-                            <i class="fas fa-feather-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-dark">
-                            <i class="fas fa-minus"></i>
-                            <i class="fas fa-feather-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-outline-dark"><i class="far fa-bookmark"></i></button>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <%- include('../partials/postBox') %>
     </div>
 </section>
 <% if (currentUser) { %>
     <%- include('../partials/modals/flock') %>
-    <%- include('../partials/modals/post') %>
+    <% if (isMember) { %>
+        <%- include('../partials/modals/post') %>
+    <% } %>
 <% } %>
 <script src="/js/flock.js" defer type="text/javascript"></script>

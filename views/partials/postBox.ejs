@@ -1,8 +1,8 @@
 <section id="postContainer" class="col rounded-3 bg-light">
     <% if (canMake && canMake === "flock and post") { %>
-        <%- include('/newContentFlock') %>
+        <%- include('./newContentFlock') %>
     <% } else if (canMake &&  canMake === "flock") { %>
-        <%- include('/newContentFeed') %>
+        <%- include('./newContentFeed') %>
     <% } %> 
         <div class="card post m-sm-3 rounded border-2">
             <h5 class="card-header">
@@ -26,7 +26,7 @@
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit vel beatae? Iusto, cupiditate doloribus. Commodi tempore, esse ea ullam suscipit, nemo itaque excepturi saepe voluptatum dolor quidem eaque inventore!
                 </p>
-                <img class="postImage img-thumbnail" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
+                <img class="postImage img-thumbnail" width="100" height="100" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" />
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex" role="group" aria-label="Button group for post">

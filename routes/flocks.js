@@ -26,14 +26,24 @@ router.get('/:name', async(req, res) => {
                 });
                 const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
                 const flocks = await Promise.all(promises);
+
+                // Check if user is a member of the flock. and get their role.
+                let role = "non-member";
+                let isMember = false;
+                flock.members.forEach(member => {
+                    if (member.userId === user.id) {
+                        isMember = true;
+                        role = member.role;
+                    }
+                });
     
-                res.render('./flocks', { flock, flocks, canMake: "flock and post", });
+                res.render('./flocks', { flock, flocks, canMake: "flock and post", role, isMember });
             } catch (error) {
                 req.flash('error', "error when finding members");
                 res.redirect('/');
             }
         } else {
-            res.render('./flocks', { flock, flocks, canMake: "flock and post", });
+            res.render('./flocks', { flock, flocks, canMake: "flock and post", isMember: false, role: "non-member" });
         }
     } catch (error) {
         req.flash('error', 'Flock does not exist.');
