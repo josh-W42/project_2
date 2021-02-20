@@ -42,6 +42,16 @@
     const postModal = document.querySelector('#newPostModal');
     // If logged in and a member of the flock.
     if (postModal) {
-        
+        // If the user submits an image, we want the image to show up as a preview.
+        const inputImage = document.querySelector('#post-image');
+        document.querySelector('#imageTrigger').addEventListener('click', e => {
+            inputImage.click();
+        });
+
+        document.querySelector('#post-image').addEventListener('change', e => {
+            if (e.target.files.length > 0) {
+                document.querySelector('#postImagePreview').src = URL.createObjectURL(e.target.files[0]);
+            }
+        });
     }
 })()

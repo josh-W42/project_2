@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="text-center needs-validation" action="" method="POST" enctype="multipart/form-data">
+                <form class="text-center" action="/<%= flock.name %>/posts" method="POST" enctype="multipart/form-data">
                     <div class="col">
                         <div class="form-floating my-3">
                             <textarea class="form-control" id="post-content" placeholder="content" name="content" height="100"></textarea>
@@ -17,20 +17,20 @@
                         <button class="btn btn-primary" type="submit" type="button">
                             <span class="ms-1">POST</span>
                         </button>
-                        <button class="btn btn-outline-dark" type="button">
+                        <button class="btn btn-outline-dark" id="imageTrigger" data-bs-toggle="collapse" data-bs-target="#imageCollaspe" aria-expanded="false" aria-controls="imageCollaspe" type="button">
                             <i class="far fa-image"></i><span class="ms-1">Add image</span>
                         </button>
                         <button class="btn btn-outline-dark" type="button">
                             <i class="far fa-file"></i><span class="ms-1">Add GIF</span>
                         </button>
                     </div>
-                    <div class="row hidden">
+                    <div id="imageCollaspe" class="row collapse text-center">
                         <div class="col-xs-3 col-md-4 my-3">
-                            <img id="imagePreview" width="100" height="100" src="https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png" alt="profile photo" />
+                            <img id="postImagePreview" class="img-thumbnail" width="100" height="100" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs=" alt="post photo" />
                         </div>
-                        <div class="col-xs-3 col-md-6 my-3">
-                            <label for="auth-image" class="form-label w-100">Flock Photo</label>
-                            <input class="form-control-sm" type="file" accept="image/*" name="image" id="flock-image">
+                        <div class="col-xs-3 col-md-6 my-3 hidden">
+                            <label for="post-image" class="form-label w-100">Flock Photo</label>
+                            <input class="form-control-sm" type="file" accept="image/*" name="image" id="post-image">
                         </div>
                     </div>
                 </form>
