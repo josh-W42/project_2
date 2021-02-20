@@ -90,6 +90,13 @@ header {
   min-width: 100%;
 }
 
+/* For flock page */
+
+#flockInfo .flockImg {
+  width: 75px;
+  height: 75px;
+}
+
 /* For profile page */
 
 .profileImg {
@@ -122,6 +129,10 @@ header {
   }
   .profileImg {
     width: 75px;
+  }
+  #flockInfo .flockImg {
+    width: 75px;
+    height: 75px;
   }
 }
 
@@ -156,5 +167,9 @@ header {
   }
   .profileImg {
     width: 100px;
+  }
+  #flockInfo .flockImg {
+    width: 100px;
+    height: 100px;
   }
 }

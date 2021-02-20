@@ -54,4 +54,22 @@
             }
         });
     }
+
+
+    // For the edit flock modal
+    const editModal = document.querySelector('#editFlockModal');
+    if (editModal) {
+        // Toggles privacy information.
+        document.querySelector('#flock-privacy-edit').addEventListener('change', e => {
+            document.querySelector('#publicInfo-edit').classList.toggle('hidden');
+            document.querySelector('#privateInfo-edit').classList.toggle('hidden');
+        });
+        
+        // Shows an image preview
+        document.querySelector('#edit-image').addEventListener('change', e => {
+            if (e.target.files.length > 0) {
+                document.querySelector('#editImagePreview').src = URL.createObjectURL(e.target.files[0]);
+            }
+        });
+    }
 })()
