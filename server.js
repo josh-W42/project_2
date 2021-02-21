@@ -9,6 +9,9 @@ const session = require('express-session'); // Ok we use this to monitor when so
 const flash = require('connect-flash'); // This communicates to the user when there are errors or success
 const passport = require('./config/ppConfig');
 
+// Real Time Processes
+const socketio = require('socket.io');
+
 // Other Middleware
 
 app.set('view engine', 'ejs');
@@ -54,6 +57,7 @@ app.use('/auth', require('./routes/auth'));
 app.use('/feed', require('./routes/feed'));
 app.use('/users', require('./routes/users'));
 app.use('/flocks', require('./routes/flocks'));
+app.use('/posts', require('./routes/posts'));
 
 // Unknown get routes.
 app.get('*', (req, res) => {
@@ -64,6 +68,14 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   console.log(`Crane is Running on port: ${PORT}`);
+});
+
+// Real time socket connections
+const SOCKET_URL = process.env.SOCKET_URL || "http://127.0.0.1:3000/";
+const io = socketio(server, {
+  cors: {
+      origin: SOCKET_URL,
+  },
 });
 
 module.exports = server;

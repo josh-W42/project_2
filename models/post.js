@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     isPrivate: DataTypes.BOOLEAN,
     wings: DataTypes.INTEGER,
-    hasWinged: DataTypes.ARRAY(DataTypes.INTEGER),
+    hasWinged: DataTypes.JSON,
     userId: DataTypes.INTEGER,
     flockId: DataTypes.INTEGER
   }, {

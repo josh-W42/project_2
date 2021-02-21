@@ -13,25 +13,33 @@
     <% } %>
     <% posts = posts.reverse() %> 
     <% posts.forEach(post => { %>
-        <div class="card post m-sm-3 rounded border-2">
+        <%  
+            let hasWinged = false;
+            let wingStatus = null;
+            let test = null;
+            if (currentUser) {
+                const hasWingedJson = JSON.parse(post.hasWinged);
+                test = hasWingedJson;
+                if (hasWingedJson[`${currentUser.userName}`] !== undefined) {
+                    hasWinged = true;
+                    wingStatus = hasWingedJson[`${currentUser.userName}`];
+                } else {
+                    hasWinged = false;
+                }
+            }
+        %>
+        <div id="post<%= post.id %>" data-user="<%= post.userId %>" class="card post m-sm-3 rounded border-2">
             <h5 class="card-header">
                 <div class="row">
-                    <div class="col groupInfo">
+                    <div class="col flockInfo">
                         <a class="text-dark" href="/flocks/<%= post.flock.name %> ">
                             <img class="flockImg rounded-circle" width="40" height="40" src="<%= post.flock.imageUrl %> " alt="flock image" />
-                            <span class="groupName"><%= post.flock.name %> </span>
+                            <span class="flockName"><%= post.flock.name %> </span>
                         </a>
                     </div>
                     <div class="wings col-3">
-                        <span>
-                            <% if (post.wings >= 0) { %>
-                                +
-                            <% } else { %>
-                                -
-                            <% } %>
-                            <%= post.wings %>  
-                            <i class="fas fa-feather-alt"></i>
-                        </span>
+                        <span class="wingCount"><%= post.wings %></span>  
+                        <i class="fas fa-feather-alt"></i>
                     </div>
                 </div>
             </h5>
@@ -52,17 +60,29 @@
                     <button type="button" class="btn btn-outline-dark">
                         <i class="far fa-comment-alt"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-dark">
-                        <i class="fas fa-plus"></i>
-                        <i class="fas fa-feather-alt"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-dark">
-                        <i class="fas fa-minus"></i>
-                        <i class="fas fa-feather-alt"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-dark"><i class="far fa-bookmark"></i></button>
+                    <% if (hasWinged) { %>
+                        <button type="button" data-postid="<%= post.id %>" class="btn <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn">
+                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" data-postid="<%= post.id %>" class="btn <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn">
+                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                    <% } else { %>
+                        <button type="button" data-postid="<%= post.id %>" class="btn btn-outline-dark addFeatherBtn">
+                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" data-postid="<%= post.id %>" class="btn btn-outline-dark minusFeatherBtn">
+                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                    <% } %> 
+                    <button type="button" class="btn btn-outline-dark collectionBtn"><i class="far fa-bookmark"></i></button>
                 </div>
             </div>
         </div>
     <% }) %>
-    </section>
+</section>
+<script src="/js/posts.js" type="module"></script>

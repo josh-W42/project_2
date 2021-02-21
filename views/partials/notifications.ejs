@@ -33,5 +33,14 @@
             </div>
         <% }) %>
     <% } %>
+    <div id="toastTemplate" class="toast hidden" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img id="toastImg" width="40" src="" class="rounded me-2" alt="">
+            <strong class="me-auto"></strong>
+            <small id="toastTime" class="text-muted"></small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div id="toastInfo" class="toast-body"></div>
+    </div>
 </div>
-<script src="/js/notifications.js" type="text/javascript"></script>
+<script src="/js/notifications.js" type="module"></script>

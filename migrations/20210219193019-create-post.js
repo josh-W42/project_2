@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       hasWinged: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+        type: Sequelize.JSON
       },
       userId: {
         type: Sequelize.INTEGER

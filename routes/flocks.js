@@ -173,9 +173,6 @@ router.put('/:name/edit', canEditFlock, uploads.single('image'), async(req, res)
             req.flash('error', error.message);
         }
         res.redirect(`/flocks/${req.params.name}`);
-        console.log('#########');
-        console.log(error);
-        console.log('#########');
     }
 });
 
@@ -205,7 +202,7 @@ router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
             imageUrl,
             userId: req.user.id,
             wings: 0,
-            hasWinged: []
+            hasWinged: JSON.stringify({})
         });
         res.redirect(`/flocks/${name}`);
     } catch (error) {

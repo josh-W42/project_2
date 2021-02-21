@@ -70,6 +70,7 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
       }
       // password authenicate
       passport.authenticate('local', successObject)(req, res);
+
     } else {
       req.flash('error', 'Email already exists');
       res.redirect('/auth/signup');
