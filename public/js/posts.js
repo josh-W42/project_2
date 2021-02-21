@@ -1,6 +1,12 @@
 import socket from './app.js'
 
 (() => {
+    // Activate tooltips
+    let tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
     const userNav = document.querySelector('#userNav');
     if (userNav) {
         // No need to compute events for buttons if not logged in

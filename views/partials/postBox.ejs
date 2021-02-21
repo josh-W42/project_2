@@ -69,25 +69,34 @@
                     <button type="button" class="btn btn-outline-dark">
                         <i class="far fa-comment-alt"></i>
                     </button>
-                    <% if (hasWinged) { %>
-                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn">
-                            <i class="fas fa-plus"></i>
-                            <i class="fas fa-feather-alt"></i>
-                        </button>
-                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn">
-                            <i class="fas fa-minus"></i>
-                            <i class="fas fa-feather-alt"></i>
-                        </button>
-                    <% } else { %>
-                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle btn-outline-dark addFeatherBtn">
-                            <i class="fas fa-plus"></i>
-                            <i class="fas fa-feather-alt"></i>
-                        </button>
-                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle btn-outline-dark minusFeatherBtn">
-                            <i class="fas fa-minus"></i>
-                            <i class="fas fa-feather-alt"></i>
-                        </button>
-                    <% } %> 
+                    <button 
+                        type="button" data-postid="<%= post.id %>"
+                        <% if (hasWinged) { %>
+                            class="btn btn-toggle <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn"
+                        <% } else { %>
+                            class="btn btn-toggle btn-outline-dark addFeatherBtn"
+                        <% } %>
+                        <% if (!currentUser) { %>
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In First!"
+                        <% } %>
+                    >
+                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-feather-alt"></i>
+                    </button>
+                    <button
+                        type="button" data-postid="<%= post.id %>"
+                        <% if (hasWinged) { %>
+                            class="btn btn-toggle <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn"
+                        <% } else { %>
+                            class="btn btn-toggle btn-outline-dark minusFeatherBtn"
+                        <% } %>
+                        <% if (!currentUser) { %>
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In First!"
+                        <% } %>
+                    >
+                        <i class="fas fa-minus"></i>
+                        <i class="fas fa-feather-alt"></i>
+                    </button>
                     <button type="button" class="btn btn-outline-dark collectionBtn"><i class="far fa-bookmark"></i></button>
                 </div>
             </div>
