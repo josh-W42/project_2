@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       models.user.hasMany(models.member, { onDelete: 'cascade' });
       // A user can make many posts.
       models.user.hasMany(models.post);
+      // A user has many wings
+      models.user.hasMany(models.wing);
     }
   };
   user.init({

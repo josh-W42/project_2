@@ -5,7 +5,7 @@ const db = require('../models');
 router.get('/', async(req, res) => {
 
     const posts = await db.post.findAll({
-        include: [db.user, db.flock]
+        include: [db.user, db.flock, db.wing]
     });
 
     let flocks = [];

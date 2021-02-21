@@ -25,7 +25,7 @@ router.get('/:name', async(req, res) => {
 
         // get all posts
         const posts = await flock.getPosts({
-            include: [db.user, db.flock]
+            include: [db.user, db.flock, db.wing]
         });
 
         // for user navigation
@@ -201,8 +201,6 @@ router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
             content,
             imageUrl,
             userId: req.user.id,
-            wings: 0,
-            hasWinged: JSON.stringify({})
         });
         res.redirect(`/flocks/${name}`);
     } catch (error) {

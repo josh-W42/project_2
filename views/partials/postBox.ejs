@@ -1,3 +1,9 @@
+<% 
+    let viewerId = 0;
+    if (currentUser) {
+        viewerId = currentUser.id;
+    }
+%> 
 <section id="postContainer" class="col rounded-3 bg-light">
     <% if (canMake && canMake === "flock and post") { %>
         <%- include('./newContentFlock') %>
@@ -11,24 +17,27 @@
             </div>
         </div>
     <% } %>
-    <% posts = posts.reverse() %> 
     <% posts.forEach(post => { %>
         <%  
             let hasWinged = false;
             let wingStatus = null;
-            let test = null;
-            if (currentUser) {
-                const hasWingedJson = JSON.parse(post.hasWinged);
-                test = hasWingedJson;
-                if (hasWingedJson[`${currentUser.userName}`] !== undefined) {
+            let wingCount = 0;
+            let negCount = 0;
+            let posCount = 0;
+            post.wings.forEach(wing => {
+                if (currentUser && wing.userId === currentUser.id) {
                     hasWinged = true;
-                    wingStatus = hasWingedJson[`${currentUser.userName}`];
-                } else {
-                    hasWinged = false;
+                    wingStatus = wing.status;
                 }
-            }
+                if (wing.status) {
+                    posCount++;
+                } else {
+                    negCount++;
+                }
+            });
+            wingCount = posCount - negCount;
         %>
-        <div id="post<%= post.id %>" data-user="<%= post.userId %>" class="card post m-sm-3 rounded border-2">
+        <div id="post<%= post.id %>" data-poster="<%= post.userId %>" data-viewer="<%= viewerId %> " class="card post m-sm-3 rounded border-2">
             <h5 class="card-header">
                 <div class="row">
                     <div class="col flockInfo">
@@ -38,7 +47,7 @@
                         </a>
                     </div>
                     <div class="wings col-3">
-                        <span class="wingCount"><%= post.wings %></span>  
+                        <span class="wingCount"><%= wingCount %></span>  
                         <i class="fas fa-feather-alt"></i>
                     </div>
                 </div>
@@ -61,20 +70,20 @@
                         <i class="far fa-comment-alt"></i>
                     </button>
                     <% if (hasWinged) { %>
-                        <button type="button" data-postid="<%= post.id %>" class="btn <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn">
+                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn">
                             <i class="fas fa-plus"></i>
                             <i class="fas fa-feather-alt"></i>
                         </button>
-                        <button type="button" data-postid="<%= post.id %>" class="btn <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn">
+                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn">
                             <i class="fas fa-minus"></i>
                             <i class="fas fa-feather-alt"></i>
                         </button>
                     <% } else { %>
-                        <button type="button" data-postid="<%= post.id %>" class="btn btn-outline-dark addFeatherBtn">
+                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle btn-outline-dark addFeatherBtn">
                             <i class="fas fa-plus"></i>
                             <i class="fas fa-feather-alt"></i>
                         </button>
-                        <button type="button" data-postid="<%= post.id %>" class="btn btn-outline-dark minusFeatherBtn">
+                        <button type="button" data-postid="<%= post.id %>" class="btn btn-toggle btn-outline-dark minusFeatherBtn">
                             <i class="fas fa-minus"></i>
                             <i class="fas fa-feather-alt"></i>
                         </button>

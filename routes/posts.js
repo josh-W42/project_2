@@ -3,21 +3,26 @@ const canLike = require('../middleware/canLike');
 const router = express.Router();
 const db = require('../models');
 
-router.put('/wings', canLike, async(req, res) => {
+router.post('/wings', canLike, async(req, res) => {
     const post = req.post;
+    const userId = req.userId;
+    const status = req.body.modifier === 'false' ? false : true;
     // Here we need to check if the user's username is found in post JSON of who has
     // pressed the up or down wing button.
     try {
-        const hasWingedJson = JSON.parse(post.hasWinged);
-        post.wings = parseInt(req.body.wings);
-        if (hasWingedJson[`${req.user.userName}`] === undefined) {
-            const status = req.body.status === 'false' ? false : true;
-            hasWingedJson[`${req.user.userName}`] = status;
+        let hasWinged = false;
+        let wingToDelete = null;
+        post.wings.forEach(wing => {
+            if (wing.userId === userId) {
+                hasWinged = true;
+                wingToDelete = wing;
+            }
+        });
+        if (hasWinged) {
+            await wingToDelete.destroy();
         } else {
-            delete hasWingedJson[`${req.user.userName}`];
+            await post.createWing({ userId, status });
         }
-        post.hasWinged = JSON.stringify(hasWingedJson);
-        await post.save();
         res.sendStatus(200);
     } catch (error) {
         res.sendStatus(500);

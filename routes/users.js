@@ -28,7 +28,7 @@ router.get('/:userName', async(req, res) => {
 
         // get all posts related to the user
         const posts = await user.getPosts({
-            include: [db.user, db.flock]
+            include: [db.user, db.flock, db.wing]
         });
         // We have to load in information about the user if they are viewing their own profile.
         if (req.user && req.user.id === id) {

@@ -17,7 +17,7 @@ import socket from './app.js';
         let time = new Date();
         templateImg.src = "https://res.cloudinary.com/dom5vocai/image/upload/v1613426540/crane_logo_xzo7cm.png";
         templateTime.innerHTML = `${time.toLocaleTimeString()}`
-        templateInfo.innerHTML = `${args}`;
+        templateInfo.innerHTML = `${event}`;
         const clone = templateToast.cloneNode(true);
         clone.classList.remove('hidden');
         toastContainer.appendChild(clone);

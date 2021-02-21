@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       models.post.belongsTo(models.user);
       // A post is posted in only one flock.
       models.post.belongsTo(models.flock);
+      // A post has many wings.
+      models.post.hasMany(models.wing, { onDelete: 'cascade' });
     }
   };
   post.init({
@@ -29,8 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     isPrivate: DataTypes.BOOLEAN,
-    wings: DataTypes.INTEGER,
-    hasWinged: DataTypes.JSON,
     userId: DataTypes.INTEGER,
     flockId: DataTypes.INTEGER
   }, {

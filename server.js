@@ -78,4 +78,12 @@ const io = socketio(server, {
   },
 });
 
+io.on('connection', (socket) => {
+  socket.on('wing', (data) => {
+    // Broadcast to every other connected user that a post has been
+    // upwingged or downwingged.
+    socket.broadcast.emit('updatePosts', data);
+  });
+});
+
 module.exports = server;
