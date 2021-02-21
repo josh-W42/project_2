@@ -194,7 +194,6 @@ router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
         req.flash('error', 'Could not upload image at this time.');
       }
     }
-
     try {
         await flock.createPost({
             poster: req.user.userName,
@@ -209,8 +208,70 @@ router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
     }
 });
 
+// For Joining a flock
+router.post('/:name/m/:userId', isLoggedIn, async(req, res) => {
+    let name = req.params.name;
+    let userId = parseInt(req.params.userId);
+    // flock lookup
+    try {
+        const flock = await db.flock.findOne({ where: { name }});
+        // add a member
+        try {
+            await flock.createMember({
+                role: 'member',
+                userId
+            });
+            req.flash('success', `Welcome to the ${req.params.name}`);
+            res.redirect(`/flocks/${req.params.name}`);
+        } catch (error) {
+            req.flash('error', `Couldn't add a member.`);
+            res.redirect(`/flocks/${req.params.name}`);
+        }
+    } catch (error) {
+        req.flash('error', 'Flock does not exist.');
+        res.redirect(`/feed`);
+    }
+});
+
+// For Leaving a flock
+router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
+    let name = req.params.name; 
+    let userId = parseInt(req.params.userId);
+
+    console.log('hi');
+
+    try {
+        const flock = await db.flock.findOne({ 
+            where: { name },
+            include: [db.member]
+        });
+        // delete a member, if found
+
+        let member = flock.members.find(member => member.userId === userId);
+
+        if (member) {
+            await member.destroy();
+            req.flash('success', `Successfuly left flock, ${req.params.name}`);
+            res.redirect(`/feed`);
+
+            // Lastly, if there there are no more members of a flock, it will delete itself.
+            if (flock.members.length === 1) {
+                flock.destroy();
+            }
+        } else {
+            req.flash('error', 'You are not a member of this flock.');
+            res.redirect(`/flocks/${req.params.name}`);
+        }
+
+    } catch (error) {
+        req.flash('error', 'Flock does not exist.');
+        res.redirect(`/feed`);
+    }
+});
+
 // Unknown get routes.
 router.get('*', (req, res) => {
+    console.log("i'm in danger");
     req.flash('error', "Page does not exist.");
     res.status(404).redirect('/');
 });

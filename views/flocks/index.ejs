@@ -30,6 +30,15 @@
                     <% if (role === "owner") { %>
                         <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#deleteFlockModal">Delete Flock</button>
                     <% } %>
+                    <% if (isMember) { %>
+                        <form action="/flocks/<%= flock.name %>/m/<%= currentUser.id %>/?_method=DELETE" method="POST">
+                            <input type="submit" class="btn btn-outline-dark m-2" value="Leave Flock"/>
+                        </form>
+                    <% } else if (currentUser) { %>
+                        <form action="/flocks/<%= flock.name %>/m/<%= currentUser.id %>" method="POST">
+                            <input type="submit" class="btn btn-outline-dark m-2" value="Join Flock"/>
+                        </form>
+                    <% } %>
                 </div>
             </div>
         </section>
