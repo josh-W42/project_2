@@ -35,6 +35,9 @@
             <div class="collapse multi-collapse" id="flocks">
                 <div class="card card-body">
                     <ul class="list-group list-group-flush">
+                        <% if (flocks.length < 1) { %>
+                            <li class="list-group-item">You haven't joined any flocks yet!</li>
+                        <% } %>
                         <% flocks.forEach(flock => { %>
                             <li class="list-group-item">
                                 <a class="text-muted" href="/flocks/<%= flock.name %> ">
