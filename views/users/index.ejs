@@ -24,14 +24,14 @@
                     <% } %>
                     <p class="text-center"><%= userData.followers.length %>  Followers</p>
                     <% if (currentUser && currentUser.id !== userData.id) { %>
-                        <% if (userData.followers.includes(currentUser.id)) { %>
-                            <form action="/users/<%= userData.id %>/u/<%= currentUser.id %>/unfollow/?_method=PUT" method="POST">
+                        <% if (userData.followers.includes(currentUser.userName)) { %>
+                            <form action="/users/<%= userData.id %>/unfollow/?_method=PUT" method="POST">
                                 <button id="followingBtn" class="btn btn-dark rounded-pill">Following</button>
                             </form>
                         <% } else if (userData.isPrivate) { %>
                             <button id="requestFollowBtn" class="btn btn-outline-dark">Request to Follow</button>
                         <% } else { %>
-                            <form action="/users/<%= userData.id %>/u/<%= currentUser.id %>/follow/?_method=PUT" method="POST">
+                            <form action="/users/<%= userData.id %>/follow/?_method=PUT" method="POST">
                                 <button id="followBtn" data-viewer="<%= currentUser.id %>" class="btn btn-outline-dark rounded-pill">Follow</button>
                             </form>
                         <% } %>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </section>
-        <% if (currentUser && currentUser.id === userData.id) { %>
+        <% if (currentUser) { %>
             <%- include('../partials/userNav') %>
         <% } %>
         <%- include('../partials/postBox') %>

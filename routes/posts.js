@@ -6,7 +6,8 @@ const db = require('../models');
 router.post('/wings', canLike, async(req, res) => {
     const post = req.post;
     const userId = req.userId;
-    const status = req.body.modifier === 'false' ? false : true;
+    const status = req.body.status === 'false' ? false : true;
+    console.log(status, req.body.status);
     // Here we need to check if the user's username is found in post JSON of who has
     // pressed the up or down wing button.
     try {
