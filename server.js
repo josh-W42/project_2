@@ -47,8 +47,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// BUT WAIT, THERE'S more MIDDLEWARE in the middleware folder
-
 app.get('/', (req, res) => {
   res.render('index');
 });

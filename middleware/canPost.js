@@ -18,25 +18,20 @@ const canPost = async(req, res, next) => {
                 include: [db.member]
             });
             if (!flock) {
+                req.flash('error', 'Flock does not exist.');
                 throw new Error('No flock found.');
             }
-
-            let isAmember = false;
-            flock.members.forEach(member => {
-                if (member.id === id) {
-                    isAmember = true;
-                }
-            });
-
-            if (isAmember) {
+            
+            if (flock.members.find(member => member.userId === id)) {
                 req.flock = flock;
                 next();
             } else {
+                req.flash('error', 'You are not a member of this flock.');
                 throw new Error('Not a member.');
             }
         } catch (error) {
-            req.flash('error', "Invalid Permisions.");
-            res.redirect(`/${req.params.name}`);
+            console.log(error);
+            res.redirect(`/flocks/${req.params.name}`);
         }
     }
 }

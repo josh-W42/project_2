@@ -19,7 +19,6 @@ passport.deserializeUser(async(id, callback) => {
             throw Error('No user found!');
         }
     } catch (error) {   
-        console.log(error);
         callback(null, null);
     }
 });
@@ -39,7 +38,6 @@ passport.use(new LocalStrategy({
             callback(null, user);
         }
     } catch (error) {
-        console.log(error);
         callback(null, null);
     }
 }));

@@ -7,6 +7,7 @@ const db = require('../models');
 const multer = require('multer');
 const uploads = multer({ dest: './uploads' });
 const cloudinary = require('cloudinary');
+const isLoggedIn = require('../middleware/isLoggedIn');
 
 // Get a user's homepage
 router.get('/:userName', async(req, res) => {
@@ -23,6 +24,7 @@ router.get('/:userName', async(req, res) => {
         }
 
         let { id, firstName, lastName, imageUrl, bio, isPrivate, followers, createdAt } = user;
+        let userData = { id, firstName, userName, lastName, imageUrl, bio, isPrivate, followers, createdAt };
         let flocks = [];
 
 
@@ -37,13 +39,13 @@ router.get('/:userName', async(req, res) => {
                 const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
                 flocks = await Promise.all(promises);
     
-                res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks, canMake: null, posts });
+                res.render('./users', { userData, flocks, canMake: null, posts });
             } catch (error) {
                 req.flash('error', "error when finding members");
                 res.redirect('/');
             }
         } else {
-            res.render('./users', { id, firstName, lastName, userName, imageUrl, bio, isPrivate, followers, createdAt, flocks, canMake: null, posts });
+            res.render('./users', { userData, flocks, canMake: null, posts });
         }
     } catch (error) {
         req.flash('error', 'User does not exist');
@@ -144,6 +146,64 @@ router.delete('/:userName', isUpdatingSelf, async(req, res) => {
     } catch (error) {
         req.flash('error', 'An error occured when deleting. Please try again.');
         res.redirect(`/users/${req.params.userName}`);
+    }
+});
+
+// Follow another user
+router.put('/:userId/u/:viewerId/follow', isLoggedIn, async (req, res) => {
+    const viewerId = parseInt(req.params.viewerId); // user 1;
+    const userId = parseInt(req.params.userId); // user 2 that user 1 is trying to follow.
+
+    // viewerId has already been valididated but not userId
+    try {
+        const user1 = await db.user.findByPk(userId);
+        if (!user1) {
+            throw new Error('user does not exist.');
+        }
+        // we have to also check if user 1 is already following user 2
+        if (user1.followers.includes(viewerId)) {
+            req.flash('error', 'Already following this user.');
+            res.redirect(`/users/${user1.userName}`);
+        } else {
+            // Now just add user2's id to user1 and save
+            user1.followers = user1.followers.concat([viewerId]);
+            await user1.save();
+            req.flash('success', `You are now following ${user1.userName}`);
+            res.redirect(`/users/${user1.userName}`);
+        }
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'User does not exist.');
+        res.redirect('/feed');
+    }
+});
+
+// Unfollow a user.
+router.put('/:userId/u/:viewerId/unfollow', isLoggedIn, async (req, res) => {
+    const viewerId = parseInt(req.params.viewerId); // user 1;
+    const userId = parseInt(req.params.userId); // user 2 that user 1 is trying to follow.
+
+    // viewerId has already been valididated but not userId
+    try {
+        const user1 = await db.user.findByPk(userId);
+        if (!user1) {
+            throw new Error('user does not exist.');
+        }
+        // we have to also check if user 1 is already NOT following user 2
+        if (!user1.followers.includes(viewerId)) {
+            req.flash('error', `You're not following this user.`);
+            res.redirect(`/users/${user1.userName}`);
+        } else {
+            // Now just add user2's id to user1 and save
+            user1.followers = user1.followers.filter(id => id !== viewerId);
+            await user1.save();
+            req.flash('success', `You unfollowed, ${user1.userName}`);
+            res.redirect(`/users/${user1.userName}`);
+        }
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'User does not exist.');
+        res.redirect('/feed');
     }
 });
 
