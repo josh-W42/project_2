@@ -90,7 +90,7 @@
                 </h5>
                 <p class="text-muted fs-6">
                     <% let createdDate = new Date(post.createdAt); %>
-                    <span class="ms-2">posted by - <a class="text-muted" href="/users/<%= post.poster %>"><%= post.poster %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toLocaleTimeString() %>  </span>
+                    <span class="ms-2">posted by - <a class="text-muted" href="/users/<%= post.poster %>"><%= post.poster %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toTimeString() %>  </span>
                 </p>
                 <div class="post-content card-body">
                     <p class="card-text">
@@ -197,7 +197,7 @@
                                     </button>
                                 </div>
                                 <% createdDate = new Date(comment.createdAt); %>
-                                <p class="text-muted">posted by - <a class="text-muted" href="/users/<%= comment.user.userName %>"><%= comment.user.userName %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toLocaleTimeString() %></p>
+                                <p class="text-muted">posted by - <a class="text-muted" href="/users/<%= comment.user.userName %>"><%= comment.user.userName %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toTimeString() %></p>
                             </div>
                         </div>                     
                     <% }) %>

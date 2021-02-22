@@ -252,13 +252,14 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
 
         if (member) {
             await member.destroy();
+            
+            // Lastly, if there there are no more members of a flock, it will delete itself.
+            if (flock.members.length === 1) {
+                await flock.destroy();
+            }
             req.flash('success', `Successfuly left flock, ${req.params.name}`);
             res.redirect(`/feed`);
 
-            // Lastly, if there there are no more members of a flock, it will delete itself.
-            if (flock.members.length === 1) {
-                flock.destroy();
-            }
         } else {
             req.flash('error', 'You are not a member of this flock.');
             res.redirect(`/flocks/${req.params.name}`);
