@@ -161,6 +161,9 @@
                         %>
                         <div id="comment<%= comment.id %>" data-poster="<%= comment.userId %>" data-viewer="<%= viewerId %>" class="card">
                             <div class="card-body">
+                                <% if (currentUser && (currentUser.id === comment.userId || (currentUser.role === 'admin' || currentUser.role === 'owner')) ) { %>
+                                    <button type="button" class="btn-close" aria-label="Close"></button>
+                                <% } %>
                                 <div class="wings">
                                     <span class="wingCount"><%= wingCount %></span>  
                                     <i class="fas fa-feather-alt"></i>

@@ -27,7 +27,6 @@ router.get('/:userName', async(req, res) => {
         let userData = { id, firstName, userName, lastName, followers, following, imageUrl, bio, isPrivate, createdAt };
         let flocks = [];
 
-
         // get all posts related to the user
         let posts = await user.getPosts({
             order: [['createdAt', 'ASC']],
