@@ -30,7 +30,6 @@ const canPost = async(req, res, next) => {
                 throw new Error('Not a member.');
             }
         } catch (error) {
-            console.log(error);
             res.redirect(`/flocks/${req.params.name}`);
         }
     }

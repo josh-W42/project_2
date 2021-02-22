@@ -58,7 +58,6 @@ router.get('/:name', async(req, res) => {
             res.render('./flocks', { flock, flocks, canMake: "flock and post", isMember: false, role: "non-member", posts });
         }
     } catch (error) {
-        console.log(error);
         req.flash('error', 'Flock does not exist.');
         res.redirect('/feed');
     }
@@ -240,8 +239,6 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
     let name = req.params.name; 
     let userId = parseInt(req.params.userId);
 
-    console.log('hi');
-
     try {
         const flock = await db.flock.findOne({ 
             where: { name },
@@ -329,7 +326,6 @@ router.get('/:name/p/:postId', async(req, res) => {
             res.render(`flocks/post`, { flock, flocks, post, role: "non-member", isMember: false, canMake: "flock and post", comments });
         }
     } catch (error) {
-        console.log(error);
         res.redirect('/feed');
     }
 });
@@ -364,7 +360,6 @@ router.post('/:name/p/:postId', canPost, async(req, res) => {
 
 // Unknown get routes.
 router.get('*', (req, res) => {
-    console.log("i'm in danger");
     req.flash('error', "Page does not exist.");
     res.status(404).redirect('/');
 });

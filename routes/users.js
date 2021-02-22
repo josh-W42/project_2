@@ -117,7 +117,6 @@ router.put('/:userName/edit', isUpdatingSelf, uploads.single('image'), async(req
         } else {
             // Special errors that the user can change.
             req.flash('error', error.message);
-            console.log(error);
         }
         res.redirect(`/users/${req.params.userName}`);
     }
@@ -172,7 +171,6 @@ router.put('/:userId/follow', isLoggedIn, async (req, res) => {
             res.redirect(`/users/${user1.userName}`);
         }
     } catch (error) {
-        console.log(error);
         req.flash('error', 'User does not exist.');
         res.redirect('/feed');
     }
@@ -201,7 +199,6 @@ router.put('/:userId/unfollow', isLoggedIn, async (req, res) => {
             res.redirect(`/users/${user1.userName}`);
         }
     } catch (error) {
-        console.log(error);
         req.flash('error', 'User does not exist.');
         res.redirect('/feed');
     }
