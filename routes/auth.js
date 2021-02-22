@@ -58,7 +58,7 @@ router.post('/signup', uploads.single('image'), async(req, res) => {
   try {
     const [user, created] = await db.user.findOrCreate({
       where: { email },
-      defaults: { firstName, lastName, password, userName, isPrivate, imageUrl, followers: [], }
+      defaults: { firstName, lastName, password, userName, isPrivate, imageUrl, followers: [], following: [] }
     });
 
     if (created) {

@@ -23,8 +23,8 @@ router.get('/:userName', async(req, res) => {
             throw new Error('User not found.');
         }
 
-        let { id, firstName, lastName, imageUrl, bio, isPrivate, followers, createdAt } = user;
-        let userData = { id, firstName, userName, lastName, imageUrl, bio, isPrivate, followers, createdAt };
+        let { id, firstName, lastName, imageUrl, bio, followers, following, isPrivate, createdAt } = user;
+        let userData = { id, firstName, userName, lastName, followers, following, imageUrl, bio, isPrivate, createdAt };
         let flocks = [];
 
 
@@ -35,7 +35,6 @@ router.get('/:userName', async(req, res) => {
         // We have to load in information about the user if they are viewing their own profile.
         if (req.user && req.user.id === id) {
             try {
-                console.log('lol');
                 const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
                 flocks = await Promise.all(promises);
     
@@ -150,24 +149,24 @@ router.delete('/:userName', isUpdatingSelf, async(req, res) => {
 });
 
 // Follow another user
-router.put('/:userId/u/:viewerId/follow', isLoggedIn, async (req, res) => {
-    const viewerId = parseInt(req.params.viewerId); // user 1;
-    const userId = parseInt(req.params.userId); // user 2 that user 1 is trying to follow.
-
-    // viewerId has already been valididated but not userId
+router.put('/:userId/follow', isLoggedIn, async (req, res) => {
+    const userId = parseInt(req.params.userId); // user 1 that the viewer is trying to follow.
     try {
         const user1 = await db.user.findByPk(userId);
         if (!user1) {
             throw new Error('user does not exist.');
         }
-        // we have to also check if user 1 is already following user 2
-        if (user1.followers.includes(viewerId)) {
+        // we have to also check if the viewer is already following user 1
+        if (user1.followers.includes(req.user.userName)) {
             req.flash('error', 'Already following this user.');
             res.redirect(`/users/${user1.userName}`);
         } else {
-            // Now just add user2's id to user1 and save
-            user1.followers = user1.followers.concat([viewerId]);
+            // Now just add user2's userName to user1 and save
+            user1.followers = user1.followers.concat([req.user.userName]);
             await user1.save();
+            // And we do the same for the viewer
+            req.user.following = req.user.following.concat([user1.userName]);
+            await req.user.save();
             req.flash('success', `You are now following ${user1.userName}`);
             res.redirect(`/users/${user1.userName}`);
         }
@@ -179,24 +178,24 @@ router.put('/:userId/u/:viewerId/follow', isLoggedIn, async (req, res) => {
 });
 
 // Unfollow a user.
-router.put('/:userId/u/:viewerId/unfollow', isLoggedIn, async (req, res) => {
-    const viewerId = parseInt(req.params.viewerId); // user 1;
-    const userId = parseInt(req.params.userId); // user 2 that user 1 is trying to follow.
-
-    // viewerId has already been valididated but not userId
+router.put('/:userId/unfollow', isLoggedIn, async (req, res) => {
+    const userId = parseInt(req.params.userId); // user 1 that the viewer is trying to follow.
     try {
         const user1 = await db.user.findByPk(userId);
         if (!user1) {
             throw new Error('user does not exist.');
         }
-        // we have to also check if user 1 is already NOT following user 2
-        if (!user1.followers.includes(viewerId)) {
+        // we have to also check if the viewer is NOT already following user 1
+        if (!user1.followers.includes(req.user.userName)) {
             req.flash('error', `You're not following this user.`);
             res.redirect(`/users/${user1.userName}`);
         } else {
-            // Now just add user2's id to user1 and save
-            user1.followers = user1.followers.filter(id => id !== viewerId);
+            // Now just remove user2's userName to user1 and save
+            user1.followers = user1.followers.filter(follower => follower !== req.user.userName);
             await user1.save();
+            // And we do the same for the viewer
+            req.user.following = req.user.following.filter(follower => follower !== user1.userName);
+            await req.user.save();
             req.flash('success', `You unfollowed, ${user1.userName}`);
             res.redirect(`/users/${user1.userName}`);
         }

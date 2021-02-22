@@ -59,7 +59,7 @@ import socket from './app.js'
                             countEl.innerHTML = count - 1;
                             count--;
                             faded = true;
-                        } else {
+                        } else if (!currentAddBtn.classList.contains('btn-dark')) {
                             currentAddBtn.classList.replace('btn-outline-dark', 'btn-dark');
                             countEl.innerHTML = count + 1;
                             count++;
@@ -68,7 +68,7 @@ import socket from './app.js'
                         const post = document.querySelector(`#post${postId}`);
                         const posterId = parseInt(post.dataset.poster);
                         const viewerId = parseInt(post.dataset.viewer);
-                        updateWings(count, postId, posterId, viewerId, faded, true);
+                        updateWings(count, postId, posterId, viewerId, faded, 'true');
                     } 
                 });
                 minusFeatherBtns[i].addEventListener('click', e => {
@@ -86,7 +86,7 @@ import socket from './app.js'
                             countEl.innerHTML = count + 1;
                             count++;
                             faded = true;
-                        } else {
+                        } else if (!currentMinusBtn.classList.contains('btn-dark')) {
                             currentMinusBtn.classList.replace('btn-outline-dark', 'btn-dark');
                             countEl.innerHTML = count - 1;
                             count--;
@@ -95,7 +95,7 @@ import socket from './app.js'
                         const post = document.querySelector(`#post${postId}`);
                         const posterId = parseInt(post.dataset.poster);
                         const viewerId = parseInt(post.dataset.viewer);
-                        updateWings(count, postId, posterId, viewerId, faded, false);
+                        updateWings(count, postId, posterId, viewerId, faded, 'false');
                     }
                 });
                 collectionsBtns[i].addEventListener('click', e => {

@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       // A user can make many posts.
       models.user.hasMany(models.post);
       // A user has many wings
-      models.user.hasMany(models.wing);
+      models.user.hasMany(models.wing, { onDelete: 'cascade' });
     }
   };
   user.init({
@@ -77,6 +77,12 @@ module.exports = (sequelize, DataTypes) => {
         return () => this.getDataValue('key');
       },
     },
+    following: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    followers: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
     bio: {
       type: DataTypes.TEXT,
       validate: {
@@ -87,9 +93,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     isPrivate: DataTypes.BOOLEAN,
-    followers: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-    },
   }, {
     sequelize,
     modelName: 'user',

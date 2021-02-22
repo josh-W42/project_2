@@ -2,7 +2,7 @@
     <section id="userNav">
         <div class="btn-group d-flex justify-content-between" id="myTab" role="tablist" aria-label="Button group for post">
             <button class="collapse-option btn btn-outline-dark" id="followers-collapse" data-bs-toggle="collapse" data-bs-target="#followers" type="button" aria-controls="followers" aria-selected="false">
-                <i class="fas fa-user-friends"></i><span class="ms-1">Followers</span>
+                <i class="fas fa-user-friends"></i><span class="ms-1">Contacts</span>
             </button>
             <button class="collapse-option btn btn-outline-dark" id="flocks-collapse" data-bs-toggle="collapse" data-bs-target="#flocks" type="button" aria-controls="flocks" aria-selected="false">
                 <i class="fas fa-dove"></i><span class="ms-1">Flocks</span>
@@ -15,6 +15,11 @@
             <div class="collapse multi-collapse" id="followers">
                 <div class="card card-body">
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><h4 class="fs-5">Following:</h4></li>
+                        <% currentUser.following.forEach(follower => { %>
+                            <li class="list-group-item"><%= follower %></li>
+                        <% }) %>
+                        <li class="list-group-item"><h4 class="fs-5">Followers:</h4></li>
                         <% currentUser.followers.forEach(follower => { %>
                             <li class="list-group-item"><%= follower %></li>
                         <% }) %>

@@ -32,11 +32,14 @@ module.exports = {
       bio: {
         type: Sequelize.TEXT
       },
+      followers: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+      },
+      following: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+      },
       isPrivate: {
         type: Sequelize.BOOLEAN
-      },
-      followers: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
       createdAt: {
         allowNull: false,
