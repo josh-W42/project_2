@@ -57,6 +57,7 @@ app.use('/users', require('./routes/users'));
 app.use('/flocks', require('./routes/flocks'));
 app.use('/posts', require('./routes/posts'));
 app.use('/comments', require('./routes/comments'));
+app.use('/search', require('./routes/search'));
 
 // Unknown get routes.
 app.get('*', (req, res) => {

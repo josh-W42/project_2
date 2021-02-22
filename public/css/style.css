@@ -145,6 +145,15 @@ header {
   align-self: center;
 }
 
+#collapseResults {
+  background-color: white;
+}
+
+nav .btn-close {
+  display: flex;
+  justify-self: right;
+}
+
 @media screen and (min-width: 720px) {
   header {
     margin-top: 20%;
