@@ -29,8 +29,6 @@ router.get('/:name', async(req, res) => {
             include: [db.user, db.flock, db.wing]
         });
 
-        posts = posts.filter(post => post.flock); // weird cascade issue.
-
         // for user navigation
         let flocks = [];
         if (req.user) {
@@ -179,6 +177,32 @@ router.put('/:name/edit', canEditFlock, uploads.single('image'), async(req, res)
     }
 });
 
+// DELETE route for flocks
+router.delete('/:name/delete', canEditFlock, async(req, res) => {
+    // Adjust private value
+    const flock = req.flock; // from canEditFlock
+
+    try {
+        // first delete all members associated with flock
+        flock.members.forEach(async member => {
+            await member.destroy();
+        });
+        // then delete all posts
+        flock.posts.forEach(async post => {
+            await post.destroy();
+        });
+    
+        await flock.destroy();
+    
+        req.flash('success', `Flock Deleted. Goodbye, ${req.params.name}.`);
+        res.redirect('/feed');
+    } catch (error) {
+        req.flash('error', 'An error occured when deleting. Please try again.');
+        res.redirect(`/feed`);
+    }
+
+});
+
 // POST route for when a user makes a new post.
 router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
     const { content } = req.body;
@@ -244,7 +268,7 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
     try {
         const flock = await db.flock.findOne({ 
             where: { name },
-            include: [db.member]
+            include: [db.member, db.post]
         });
         // delete a member, if found
 
@@ -255,6 +279,12 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
             
             // Lastly, if there there are no more members of a flock, it will delete itself.
             if (flock.members.length === 1) {
+
+                // delete all posts rows with this flock.
+                flock.posts.forEach(async post => {
+                    await post.destroy();
+                });
+
                 await flock.destroy();
             }
             req.flash('success', `Successfuly left flock, ${req.params.name}`);

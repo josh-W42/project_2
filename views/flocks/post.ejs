@@ -222,4 +222,16 @@
         </section>
     </div>
 </section>
+<% if (currentUser) { %>
+    <%- include('../partials/modals/flock') %>
+    <% if (isMember) { %>
+        <%- include('../partials/modals/post') %>
+    <% } %>
+    <% if (role === "admin" || role === "owner") { %>
+        <%- include('../partials/modals/editFlock') %>
+    <% } %>
+    <% if (role === "owner") { %>
+        <%- include('../partials/modals/deleteFlock') %>
+    <% } %>
+<% } %>
 <script src="/js/comments.js" type="module"></script>

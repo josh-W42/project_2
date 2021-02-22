@@ -54,5 +54,8 @@
     <% if (role === "admin" || role === "owner") { %>
         <%- include('../partials/modals/editFlock') %>
     <% } %>
+    <% if (role === "owner") { %>
+        <%- include('../partials/modals/deleteFlock') %>
+    <% } %>
 <% } %>
 <script src="/js/flock.js" defer type="text/javascript"></script>

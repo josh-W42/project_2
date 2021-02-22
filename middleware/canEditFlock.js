@@ -15,7 +15,7 @@ const canEditFlock = async(req, res, next) => {
         try {
             const flock = await db.flock.findOne({ 
                 where: { name },
-                include: [db.member]
+                include: [db.member, db.post]
             });
             if (!flock) {
                 throw new Error('No flock found.');
@@ -23,7 +23,7 @@ const canEditFlock = async(req, res, next) => {
 
             let hasPermisions = false;
             flock.members.forEach(member => {
-                if (member.id === id && member.role !== 'member') {
+                if (member.userId === id && member.role !== 'member') {
                     hasPermisions = true;
                 }
             });
@@ -36,7 +36,7 @@ const canEditFlock = async(req, res, next) => {
             }
         } catch (error) {
             req.flash('error', "Invalid Permisions.");
-            res.redirect(`/${req.params.name}`);
+            res.redirect(`/flocks/${req.params.name}`);
         }
     }
 }

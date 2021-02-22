@@ -9,8 +9,6 @@ router.get('/', async(req, res) => {
         include: [db.user, db.flock, db.wing]
     });
 
-    posts = posts.filter(post => post.flock); // weird cascade issue.
-
     let flocks = [];
     if (req.user) {
         try {
