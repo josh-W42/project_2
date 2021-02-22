@@ -24,10 +24,12 @@ router.get('/:name', async(req, res) => {
         }
 
         // get all posts
-        const posts = await flock.getPosts({
+        let posts = await flock.getPosts({
             order: [['createdAt', 'ASC']],
             include: [db.user, db.flock, db.wing]
         });
+
+        posts = posts.filter(post => post.flock); // weird cascade issue.
 
         // for user navigation
         let flocks = [];

@@ -4,10 +4,12 @@ const db = require('../models');
 
 router.get('/', async(req, res) => {
 
-    const posts = await db.post.findAll({
+    let posts = await db.post.findAll({
         order: [['createdAt', 'ASC']],
         include: [db.user, db.flock, db.wing]
     });
+
+    posts = posts.filter(post => post.flock); // weird cascade issue.
 
     let flocks = [];
     if (req.user) {

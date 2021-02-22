@@ -29,10 +29,13 @@ router.get('/:userName', async(req, res) => {
 
 
         // get all posts related to the user
-        const posts = await user.getPosts({
+        let posts = await user.getPosts({
             order: [['createdAt', 'ASC']],
             include: [db.user, db.flock, db.wing]
         });
+
+        posts = posts.filter(post => post.flock); // weird cascade issue.
+
         // We have to load in information about the user if they are viewing their own profile.
         if (req.user && req.user.id === id) {
             try {
