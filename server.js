@@ -56,6 +56,7 @@ app.use('/feed', require('./routes/feed'));
 app.use('/users', require('./routes/users'));
 app.use('/flocks', require('./routes/flocks'));
 app.use('/posts', require('./routes/posts'));
+app.use('/comments', require('./routes/comments'));
 
 // Unknown get routes.
 app.get('*', (req, res) => {
@@ -77,10 +78,13 @@ const io = socketio(server, {
 });
 
 io.on('connection', (socket) => {
-  socket.on('wing', (data) => {
-    // Broadcast to every other connected user that a post has been
+  socket.on('wing-post', (data) => {
+    // Broadcast to every other connected user that a post or comment has been
     // upwingged or downwingged.
     socket.broadcast.emit('updatePosts', data);
+  });
+  socket.on('wing-comment', (data) => {
+    socket.broadcast.emit('updateComments', data);
   });
 });
 

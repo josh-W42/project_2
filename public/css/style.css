@@ -3,6 +3,7 @@
 html, body {
   width: 100%;
   margin: 0 auto;
+  position: relative;
 }
 
 a {
@@ -105,6 +106,33 @@ header {
 
 #editProfileModal .validators {
   list-style-position: inside;
+}
+
+/* For post page */
+#sideNav {
+  display: block;
+}
+
+#commentContainer {
+  position: relative;
+  background: white;
+}
+
+#commentContainer .nav-link {
+  border-left: 1px solid lightgrey;
+}
+
+#commentContainer .card {
+  border: 0px solid grey;
+  border-right: 1px solid lightgrey;
+  border-left: 1px solid lightgrey;
+}
+
+#commentScroll .wings {
+  text-align: end;
+  font-size: medium;
+  width: 100%;
+  align-self: center;
 }
 
 @media screen and (min-width: 720px) {

@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class wing extends Model {
+  class comment extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,22 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // A wing belongs to a user.
-      models.wing.belongsTo(models.user);
-      // A wing also belongs to a post. 
-      models.wing.belongsTo(models.post);
-      // A wing also can belong to a comment.
-      models.wing.belongsTo(models.comment);
+      // A comment belongs to a post.
+      models.comment.belongsTo(models.post);
+      // A comment has many wings
+      models.comment.hasMany(models.wing, { ondelete: 'cascade' });
+      // A comment is created by a user.
+      models.comment.belongsTo(models.user);
     }
   };
-  wing.init({
+  comment.init({
     postId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN,
-    commentId: DataTypes.INTEGER
+    content: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'wing',
+    modelName: 'comment',
   });
-  return wing;
+  return comment;
 };

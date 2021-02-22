@@ -25,6 +25,7 @@ router.get('/:name', async(req, res) => {
 
         // get all posts
         const posts = await flock.getPosts({
+            order: [['createdAt', 'ASC']],
             include: [db.user, db.flock, db.wing]
         });
 
@@ -57,6 +58,7 @@ router.get('/:name', async(req, res) => {
             res.render('./flocks', { flock, flocks, canMake: "flock and post", isMember: false, role: "non-member", posts });
         }
     } catch (error) {
+        console.log(error);
         req.flash('error', 'Flock does not exist.');
         res.redirect('/feed');
     }
@@ -267,6 +269,97 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
         req.flash('error', 'Flock does not exist.');
         res.redirect(`/feed`);
     }
+});
+
+// Get a specific post and it's comments
+// *** also, unsure if I can make another
+// controller for this but for now i'm putting it here.
+router.get('/:name/p/:postId', async(req, res) => {
+    const name = req.params.name;
+    const postId = parseInt(req.params.postId);
+    // Check of the flock and post exist
+    try {
+        const flock = await db.flock.findOne({
+            where: { name },
+            include: [db.member]
+        });
+        if (!flock) {
+            req.flash('error', 'Flock does not exist.');
+            throw new Error('Non existant.');
+        }
+
+        const post = await db.post.findByPk(postId, {
+            include: [db.wing]
+        });
+        if (!post) {
+            req.flash('error', 'Post does not exist in flock.');
+            throw new Error('Non existant');
+        }
+
+        const comments = await post.getComments({
+            order: [['createdAt', 'ASC']],
+            include: [db.wing, db.user]
+        });
+
+        // for user navigation
+        let flocks = [];
+        if (req.user) {
+            try {
+                const user = await db.user.findByPk(req.user.id, {
+                    include: [db.member],
+                });
+                const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
+                const flocks = await Promise.all(promises);
+
+                // Check if user is a member of the flock. and get their role.
+                let role = "non-member";
+                let isMember = false;
+                flock.members.forEach(member => {
+                    if (member.userId === user.id) {
+                        isMember = true;
+                        role = member.role;
+                    }
+                });
+                res.render(`flocks/post`, { flock, flocks, post, isMember, role, canMake: "flock and post", comments });
+            } catch (error) {
+                req.flash('error', "error when finding members");
+                res.redirect('/');
+            }
+        } else {
+            res.render(`flocks/post`, { flock, flocks, post, role: "non-member", isMember: false, canMake: "flock and post", comments });
+        }
+    } catch (error) {
+        console.log(error);
+        res.redirect('/feed');
+    }
+});
+
+// Add a comment
+router.post('/:name/p/:postId', canPost, async(req, res) => {
+    const postId = parseInt(req.params.postId);
+    const flock = req.flock;
+
+    // First we have to get the post
+    try {
+        const post = await db.post.findByPk(postId);
+
+        if (!post) {
+            req.flash('error', 'Post does not exist.');
+            throw new Error('Post does not exist.');
+        }
+
+        // next we add a comment
+        const comment = await post.createComment({
+            userId: req.user.id,
+            content: req.body.content,
+        });
+        res.redirect(`/flocks/${flock.name}/p/${postId}`);
+
+    } catch (error) {
+        res.redirect(`/flocks/${flock.name}`);
+    }
+
+
 });
 
 // Unknown get routes.

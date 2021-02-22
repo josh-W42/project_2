@@ -2,8 +2,10 @@ const db = require("../models");
 
 const canLike = async(req, res, next) => {
     try {
-        const user = await db.user.findByPk(req.body.viewerId);
-        const post = await db.post.findByPk(req.body.postId, {
+        const userId = parseInt(req.body.viewerId);
+        const postId = parseInt(req.body.postId);
+        const user = await db.user.findByPk(userId);
+        const post = await db.post.findByPk(postId, {
             include: [db.wing]
         });
         if (!user) {
@@ -16,6 +18,7 @@ const canLike = async(req, res, next) => {
             next();
         }
     } catch (error) {
+        console.log(error);
         res.sendStatus(500);
     }
 }

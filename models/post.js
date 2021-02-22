@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       models.post.belongsTo(models.flock);
       // A post has many wings.
       models.post.hasMany(models.wing, { onDelete: 'cascade' });
+      // A post has many comments
+      models.post.hasMany(models.comment, { onDelete: 'cascade' })
     }
   };
   post.init({

@@ -16,12 +16,18 @@
                 <div class="card card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><h4 class="fs-5">Following:</h4></li>
+                        <% if (currentUser.following.length < 1) { %>
+                            <li class="list-group-item">You haven't followed anyone.</li>
+                        <% } %>
                         <% currentUser.following.forEach(follower => { %>
-                            <li class="list-group-item"><%= follower %></li>
+                            <a class="text-muted" href="/users/<%= follower %>"><li class="list-group-item"><%= follower %></li></a>
                         <% }) %>
                         <li class="list-group-item"><h4 class="fs-5">Followers:</h4></li>
+                        <% if (currentUser.followers.length < 1) { %>
+                            <li class="list-group-item">No Followers Yet!</li>
+                        <% } %>
                         <% currentUser.followers.forEach(follower => { %>
-                            <li class="list-group-item"><%= follower %></li>
+                            <a class="text-muted" href="/users/<%= follower %>"><li class="list-group-item"><%= follower %></li></a>
                         <% }) %>
                     </ul>
                 </div>
@@ -31,7 +37,7 @@
                     <ul class="list-group list-group-flush">
                         <% flocks.forEach(flock => { %>
                             <li class="list-group-item">
-                                <a class="link" href="/flocks/<%= flock.name %> ">
+                                <a class="text-muted" href="/flocks/<%= flock.name %> ">
                                     <%= flock.name %>
                                 </a>
                             </li>

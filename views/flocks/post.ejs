@@ -1,0 +1,225 @@
+<% 
+    let creationDate = new Date(flock.createdAt);
+    let viewerId = 0;
+    if (currentUser) {
+        viewerId = currentUser.id;
+    }
+%>
+<section id="flockContainer" class="container d-flex justify-content-center">
+    <div class="row">
+        <section id="flockInfo">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="card-title fs-5">
+                                <img class="flockImg shadow border-2 rounded-circle me-4" width="100" height="100" src="<%= flock.imageUrl %>" alt="flock photo for <%= flock.name %>" />
+                                <%= flock.name %>
+                            </h1>
+                            <h3 class="card-subtitle mb-2 fs-6 text-muted">Established On: <%= creationDate.toDateString() %> </h3>
+                        </div> 
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <% if (flock.description) { %>
+                        <p class="card-text">
+                            <%= flock.description %>
+                        </p>
+                    <% } %> 
+                    <p class="text-center"><%= flock.members.length %> Members</p>
+                    <% if (role === "admin" || role === "owner") { %>
+                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#editFlockModal">Edit Flock</button>
+                     
+                    <% } %>
+                    <% if (role === "owner") { %>
+                        <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#deleteFlockModal">Delete Flock</button>
+                    <% } %>
+                    <% if (isMember) { %>
+                        <form action="/flocks/<%= flock.name %>/m/<%= currentUser.id %>/?_method=DELETE" method="POST">
+                            <input type="submit" class="btn btn-outline-dark m-2" value="Leave Flock"/>
+                        </form>
+                    <% } else if (currentUser) { %>
+                        <form action="/flocks/<%= flock.name %>/m/<%= currentUser.id %>" method="POST">
+                            <input type="submit" class="btn btn-outline-dark m-2" value="Join Flock"/>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+        <%- include('../partials/userNav') %>
+        <section id="postContainer" class="col rounded-3 bg-light mb-5">
+            <!-- similar to postbox, but some slight differences -->
+            <% if (canMake && canMake === "flock and post") { %>
+                <%- include('../partials/newContentFlock') %>
+            <% } else if (canMake &&  canMake === "flock") { %>
+                <%- include('../partials/newContentFeed') %>
+            <% } %>
+            <%  
+                let hasWinged = false;
+                let wingStatus = null;
+                let wingCount = 0;
+                let negCount = 0;
+                let posCount = 0;
+                post.wings.forEach(wing => {
+                    if (currentUser && wing.userId === currentUser.id) {
+                        hasWinged = true;
+                        wingStatus = wing.status;
+                    }
+                    if (wing.status) {
+                        posCount++;
+                    } else {
+                        negCount++;
+                    }
+                });
+                wingCount = posCount - negCount;
+            %>
+            <div id="post<%= post.id %>" data-poster="<%= post.userId %>" data-viewer="<%= viewerId %>" class="card post m-sm-3 rounded border-2">
+                <h5 class="card-header">
+                    <div class="row">
+                        <div class="col flockInfo">
+                            <a class="text-dark" href="/flocks/<%= flock.name %> ">
+                                <img class="flockImg rounded-circle" width="40" height="40" src="<%= flock.imageUrl %> " alt="flock image" />
+                                <span class="flockName"><%= flock.name %> </span>
+                            </a>
+                        </div>
+                        <div class="wings col-3">
+                            <span class="wingCount"><%= wingCount %></span>  
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                    </div>
+                </h5>
+                <p class="text-muted fs-6">
+                    <% let createdDate = new Date(post.createdAt); %>
+                    <span class="ms-2">posted by - <a class="text-muted" href="/users/<%= post.poster %>"><%= post.poster %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toLocaleTimeString() %>  </span>
+                </p>
+                <div class="post-content card-body">
+                    <p class="card-text">
+                        <%= post.content %> 
+                    </p>
+                    <% if (post.imageUrl) { %>
+                        <img class="postImage img-thumbnail" width="100" height="100" src="<%= post.imageUrl %> " />
+                    <% } %>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group d-flex" role="group" aria-label="Button group for post">
+                        <button id="replyBtn" type="button" class="btn btn-outline-dark">
+                            <i class="far fa-comment-alt"></i>
+                        </button>
+                        <button 
+                            type="button" data-postid="<%= post.id %>"
+                            <% if (hasWinged) { %>
+                                class="btn btn-toggle <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn"
+                            <% } else { %>
+                                class="btn btn-toggle btn-outline-dark addFeatherBtn"
+                            <% } %>
+                            <% if (!currentUser) { %>
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In First!"
+                            <% } %>
+                        >
+                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button
+                            type="button" data-postid="<%= post.id %>"
+                            <% if (hasWinged) { %>
+                                class="btn btn-toggle <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn"
+                            <% } else { %>
+                                class="btn btn-toggle btn-outline-dark minusFeatherBtn"
+                            <% } %>
+                            <% if (!currentUser) { %>
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In First!"
+                            <% } %>
+                        >
+                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-feather-alt"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-dark collectionBtn"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div id="commentContainer" class="row">
+                <div id="commentScroll" class="col">
+                    <% comments.forEach(comment => { %>
+                        <%  
+                            hasWinged = false;
+                            wingStatus = null;
+                            wingCount = 0;
+                            negCount = 0;
+                            posCount = 0;
+                            comment.wings.forEach(wing => {
+                                if (currentUser && wing.userId === currentUser.id) {
+                                    hasWinged = true;
+                                    wingStatus = wing.status;
+                                }
+                                if (wing.status) {
+                                    posCount++;
+                                } else {
+                                    negCount++;
+                                }
+                            });
+                            wingCount = posCount - negCount;
+                        %>
+                        <div id="comment<%= comment.id %>" data-poster="<%= comment.userId %>" data-viewer="<%= viewerId %>" class="card">
+                            <div class="card-body">
+                                <div class="wings">
+                                    <span class="wingCount"><%= wingCount %></span>  
+                                    <i class="fas fa-feather-alt"></i>
+                                </div>
+                                <p class="card-text"><%= comment.content %> </p>
+                                <div class="btn-group list text-center" role="group" aria-label="Button group for post">
+                                    <button 
+                                        type="button" data-postid=<%= post.id %>  data-commentid="<%= comment.id %>"
+                                        <% if (hasWinged) { %>
+                                            class="btn btn-toggle <%= wingStatus ? "btn-dark" : "btn-outline-dark" %> addFeatherBtn"
+                                        <% } else { %>
+                                            class="btn btn-toggle btn-outline-dark addFeatherBtn"
+                                        <% } %>
+                                        <% if (!currentUser) { %>
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In First!"
+                                        <% } %>
+                                    >
+                                        <i class="fas fa-plus"></i>
+                                        <i class="fas fa-feather-alt"></i>
+                                    </button>
+                                    <button
+                                        type="button" data-commentid="<%= post.id %>"
+                                        <% if (hasWinged) { %>
+                                            class="btn btn-toggle <%= wingStatus ? "btn-outline-dark" : "btn-dark" %> minusFeatherBtn"
+                                        <% } else { %>
+                                            class="btn btn-toggle btn-outline-dark minusFeatherBtn"
+                                        <% } %>
+                                        <% if (!currentUser) { %>
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Sign In First!"
+                                        <% } %>
+                                    >
+                                        <i class="fas fa-minus"></i>
+                                        <i class="fas fa-feather-alt"></i>
+                                    </button>
+                                </div>
+                                <% createdDate = new Date(comment.createdAt); %>
+                                <p class="text-muted">posted by - <a class="text-muted" href="/users/<%= comment.user.userName %>"><%= comment.user.userName %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toLocaleTimeString() %></p>
+                            </div>
+                        </div>                     
+                    <% }) %>
+                </div>
+            </div>
+            <div class="btn-group d-flex" role="group" aria-label="Button group for comments">
+                <button type="button" class="btn btn-outline-dark collapse-option" id="reply-collapse" data-bs-toggle="collapse" data-bs-target="#replyForm" aria-controls="replyForm" aria-selected="false">
+                    <span class="m-2">New Comment</span><i class="far fa-comment-alt"></i>
+                </button>
+            </div>
+            <div class="collapse multi-collapse" id="replyForm">
+                <div class="card card-body border-0 bg-transparent">
+                    <form action="/flocks/<%= flock.name %>/p/<%= post.id %>" method="POST">
+                        <div class="form-floating my-3">
+                            <textarea class="form-control" id="comment-text" placeholder="content" name="content" height="100"></textarea>
+                            <label for="comment-text">Content</label>
+                        </div>
+                        <input class="btn btn-primary" value="POST COMMENT" type="submit" />
+                    </form> 
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+<script src="/js/comments.js" type="module"></script>

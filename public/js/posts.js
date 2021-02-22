@@ -1,5 +1,5 @@
+'use strict';
 import socket from './app.js'
-
 (() => {
     // Activate tooltips
     let tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');

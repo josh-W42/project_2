@@ -66,9 +66,9 @@
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex" role="group" aria-label="Button group for post">
-                    <button type="button" class="btn btn-outline-dark">
+                    <a href="/flocks/<%= post.flock.name %>/p/<%= post.id %>" type="button" class="btn btn-outline-dark">
                         <i class="far fa-comment-alt"></i>
-                    </button>
+                    </a>
                     <button 
                         type="button" data-postid="<%= post.id %>"
                         <% if (hasWinged) { %>
