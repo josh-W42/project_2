@@ -13,36 +13,36 @@
       "shape": {
         "type": "circle",
         "stroke": {
-          "width": 0,
+          "width": 1,
           "color": "#000000"
         },
         "polygon": {
-          "nb_sides": 5
+          "nb_sides": 10
         },
         "image": {
-          "src": "img/github.svg",
-          "width": 100,
-          "height": 100
+          "src": "./assets/crane_logo.png",
+          "width": 1000,
+          "height": 1000
         }
       },
       "opacity": {
         "value": 0.5,
-        "random": false,
+        "random": true,
         "anim": {
           "enable": true,
           "speed": 0.5,
           "opacity_min": 0.1,
-          "sync": false
+          "sync": true
         }
       },
       "size": {
         "value": 10,
         "random": true,
         "anim": {
-          "enable": false,
-          "speed": 80,
+          "enable": true,
+          "speed": 10,
           "size_min": 0.1,
-          "sync": false
+          "sync": true
         }
       },
       "line_linked": {
@@ -72,23 +72,23 @@
       "events": {
         "onhover": {
           "enable": true,
-          "mode": "bubble"
+          "mode": "grab"
         },
         "onclick": {
-          "enable": false,
-          "mode": "push"
+          "enable": true,
+          "mode": "repulse"
         },
         "resize": true
       },
       "modes": {
         "grab": {
-          "distance": 800,
+          "distance": 200,
           "line_linked": {
             "opacity": 1
           }
         },
         "bubble": {
-          "distance": 400,
+          "distance": 200,
           "size": 20,
           "duration": 5,
           "opacity": 5,
