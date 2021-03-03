@@ -162,7 +162,9 @@
                         <div id="comment<%= comment.id %>" data-poster="<%= comment.userId %>" data-viewer="<%= viewerId %>" class="card">
                             <div class="card-body">
                                 <% if (currentUser && (currentUser.id === comment.userId || (currentUser.role === 'admin' || currentUser.role === 'owner')) ) { %>
-                                    <button type="button" class="btn-close" aria-label="Close"></button>
+                                    <form action="/flocks/<%= flock.name %>/p/<%= post.id %>/c/<%= comment.id %>/?_method=DELETE" method="POST">
+                                        <button type="submit" class="btn-close" aria-label="Close"></button>
+                                    </form>
                                 <% } %>
                                 <div class="wings">
                                     <span class="wingCount"><%= wingCount %></span>  

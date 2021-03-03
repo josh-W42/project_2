@@ -56,7 +56,7 @@
                 <% 
                     let createdDate = new Date(post.createdAt);
                 %>
-                <span class="ms-2">posted by - <a class="text-muted" href="/users/<%= post.poster %>"><%= post.poster %></a> - on <%= createdDate.toLocaleDateString() %> at <%= createdDate.toTimeString() %>  </span>
+                <span class="ms-2">posted by - <a class="text-muted" href="/users/<%= post.poster %>"><%= post.poster %></a> - on <%= createdDate.toDateString() %> at <%= createdDate.toTimeString() %>  </span>
             </p>
             <div class="post-content card-body">
                 <p class="card-text">

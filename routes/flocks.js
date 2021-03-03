@@ -387,7 +387,32 @@ router.post('/:name/p/:postId', canPost, async(req, res) => {
     } catch (error) {
         res.redirect(`/flocks/${flock.name}`);
     }
+});
 
+// Delete a Comment
+router.delete('/:name/p/:postId/c/:commentId', canPost, async (req, res) => {
+    const postId = parseInt(req.params.postId);
+    const flock = req.flock;
+    const commentId = parseInt(req.params.commentId);
+
+    try {
+        const comment = await db.comment.findByPk(commentId);
+
+        // Delete a comment if found.
+        if (comment) {
+            await comment.destroy();
+
+            req.flash('success', `Successfuly Deleted Comment.`);
+            res.redirect(`/flocks/${flock.name}/p/${postId}`);
+        } else {
+            req.flash('error', 'Could Not Delete Comment.');
+            res.redirect(`/flocks/${flock.name}/p/${postId}`);
+        }
+
+    } catch (error) {
+        req.flash('error', 'Comment Does Not Exist.');
+        res.redirect(`/flocks/${flock.name}/p/${postId}`);
+    }    
 
 });
 
