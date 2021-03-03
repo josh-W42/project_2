@@ -34,9 +34,12 @@ router.get('/:userName', async(req, res) => {
         });
 
         // We have to load in information about the user if they are viewing their own profile.
-        if (req.user && req.user.id === id) {
+        if (req.user) {
             try {
-                const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
+                const viewer = await db.user.findByPk(req.user.id, {
+                    include: [db.member]
+                });
+                const promises = viewer.members.map(async member => await db.flock.findByPk(member.flockId));
                 flocks = await Promise.all(promises);
     
                 res.render('./users', { userData, flocks, canMake: null, posts });
@@ -178,13 +181,13 @@ router.put('/:userId/follow', isLoggedIn, async (req, res) => {
 
 // Unfollow a user.
 router.put('/:userId/unfollow', isLoggedIn, async (req, res) => {
-    const userId = parseInt(req.params.userId); // user 1 that the viewer is trying to follow.
+    const userId = parseInt(req.params.userId); // user 1 that the viewer is trying to unfollow.
     try {
         const user1 = await db.user.findByPk(userId);
         if (!user1) {
             throw new Error('user does not exist.');
         }
-        // we have to also check if the viewer is NOT already following user 1
+        // we have to also check if the viewer has already unfollowed user 1
         if (!user1.followers.includes(req.user.userName)) {
             req.flash('error', `You're not following this user.`);
             res.redirect(`/users/${user1.userName}`);
