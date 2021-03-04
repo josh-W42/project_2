@@ -53,7 +53,7 @@
                             <ul class="list-group list-group-flush">
                                 <% flock.members.forEach((member) => { %>
                                     <li class="list-group-item d-flex justify-content-between">
-                                        <%= member.userName %>
+                                        <a href="/users/<%= member.userName %>"><%= member.userName %></a>
                                         <% if (member.role === 'admin') { %>
                                             <span>admin</span>
                                         <% } else if (member.role === 'owner') { %>

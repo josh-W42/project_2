@@ -114,6 +114,11 @@ header {
   height: 75px;
 }
 
+#flockInfo {
+  overflow-y: scroll;
+  max-height: 400px;
+}
+
 /* For profile page */
 
 .profileImg {
