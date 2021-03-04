@@ -32,7 +32,7 @@ router.get('/:name', async(req, res) => {
         // Get all members
         const memberPromises = flock.members.map( async member => {
             const user = await db.user.findByPk(member.userId);
-            return { id: user.id, userName: user.userName, role: member.role }
+            return { id: member.id, userName: user.userName, role: member.role }
         });
         flock.members = await Promise.all(memberPromises);
 
@@ -308,6 +308,28 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
     }
 });
 
+// For making an admin
+router.put('/:name/m/:memberId/admin/add', canEditFlock, async (req, res) => {
+    const flock = req.flock;
+    const memberId = parseInt(req.params.memberId);
+
+    try {
+        // search for member
+        const member = flock.members.find((member => member.id === memberId));
+        console.log(member, memberId);
+        // change role
+        member.role = 'admin';
+        await member.save();
+
+        req.flash('success', `Member Promoted To Admin`);
+        res.redirect(`/flocks/${flock.name}`);
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Could Not Promote Member');
+        res.redirect(`/flocks/${flock.name}`);
+    }
+});
+
 // Get a specific post and it's comments
 // *** also, unsure if I can make another
 // controller for this but for now i'm putting it here.
@@ -328,7 +350,7 @@ router.get('/:name/p/:postId', async(req, res) => {
         // Get all members
         const memberPromises = flock.members.map( async member => {
             const user = await db.user.findByPk(member.userId);
-            return { id: user.id, userName: user.userName, role: member.role }
+            return { id: member.id, userName: user.userName, role: member.role }
         });
         flock.members = await Promise.all(memberPromises);
 
