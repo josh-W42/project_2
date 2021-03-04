@@ -65,8 +65,12 @@
                                             <div>
                                                 <% if (member.role === 'member') { %>
                                                     <div class="btn-group mt-2" aria-label="Button group for roles">
-                                                        <button class="btn btn-outline-primary btn-sm">Make Admin</button>
-                                                        <button class="btn btn-outline-danger btn-sm">Remove Member</button>
+                                                        <form action="/flocks/<%= flock.name %>/m/<%= member.id %>/admin/add/?_method=PUT" method="POST">
+                                                            <button class="btn btn-outline-primary btn-sm">Make Admin</button>
+                                                        </form>
+                                                        <form action="/flocks/<%= flock.name %>/m/<%= member.id %>/?_method=DELETE" method="POST" >
+                                                            <button class="btn btn-outline-danger btn-sm">Remove Member</button>
+                                                        </form>
                                                     </div>
                                                 <% } else if (member.role === 'admin') { %>
                                                     <div class="btn-group mt-2" aria-label="Button group for roles">

@@ -50,7 +50,7 @@ router.get('/:name', async(req, res) => {
                 let role = "non-member";
                 let isMember = false;
                 flock.members.forEach(member => {
-                    if (member.id === user.id) {
+                    if (member.userName === user.userName) {
                         isMember = true;
                         role = member.role;
                     }
@@ -268,18 +268,20 @@ router.post('/:name/m/:userId', isLoggedIn, async(req, res) => {
 });
 
 // For Leaving a flock
-router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
+router.delete('/:name/m/:memberId', isLoggedIn, async(req, res) => {
     let name = req.params.name; 
-    let userId = parseInt(req.params.userId);
+    let memberId = parseInt(req.params.memberId);
 
     try {
-        const flock = await db.flock.findOne({ 
-            where: { name },
-            include: [db.member, db.post]
-        });
-        // delete a member, if found
 
-        let member = flock.members.find(member => member.userId === userId);
+        const flock = await db.flock.findOne({
+            where: { name },
+            include: [db.member, db.post],
+        });
+        if (!flock) throw new Error('Flock Does not Exist');
+
+        // delete a member, if found
+        let member = await db.member.findByPk(memberId);
 
         if (member) {
             await member.destroy();
@@ -294,16 +296,16 @@ router.delete('/:name/m/:userId', isLoggedIn, async(req, res) => {
 
                 await flock.destroy();
             }
-            req.flash('success', `Successfuly left flock, ${req.params.name}`);
+            req.flash('success', `Member Removed from ${name}`);
             res.redirect(`/feed`);
 
         } else {
-            req.flash('error', 'You are not a member of this flock.');
+            req.flash(`error', 'User is not a member of flock ${name}.`);
             res.redirect(`/flocks/${req.params.name}`);
         }
 
     } catch (error) {
-        req.flash('error', 'Flock does not exist.');
+        req.flash('error', 'An error occured!');
         res.redirect(`/feed`);
     }
 });
@@ -399,7 +401,7 @@ router.get('/:name/p/:postId', async(req, res) => {
                 let role = "non-member";
                 let isMember = false;
                 flock.members.forEach(member => {
-                    if (member.id === user.id) {
+                    if (member.userName === user.userName) {
                         isMember = true;
                         role = member.role;
                     }
