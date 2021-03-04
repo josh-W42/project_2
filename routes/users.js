@@ -142,6 +142,20 @@ router.delete('/:userName', isUpdatingSelf, async(req, res) => {
             await member.destroy();
         });
 
+        // Now you just need to remove the deleted user's username from EVERY single user that is following them. Tisk Tisk... Ineffiecnt.
+        user.followers.forEach(async followerUserName => {
+            const foundUser = await db.user.findOne({ userName: followerUserName });
+            foundUser.following = foundUser.following.filter( userName => userName !== user.userName);
+            foundUser.save();
+        });
+
+        // Do the same for who they are following.
+        user.following.forEach(async followingUser => {
+            const foundUser = await db.user.findOne({ userName: followingUser.userName });
+            foundUser.followers = foundUser.following.filter( userName => userName !== user.userName); 
+            foundUser.save();
+        });
+
         await user.destroy();
         req.flash('success', `Account Deleted. Goodbye, ${req.params.userName}.`);
         res.redirect('/feed');
