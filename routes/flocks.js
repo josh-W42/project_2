@@ -32,7 +32,7 @@ router.get('/:name', async(req, res) => {
         // Get all members
         const memberPromises = flock.members.map( async member => {
             const user = await db.user.findByPk(member.userId);
-            return { userName: user.userName, role: member.role }
+            return { id: user.id, userName: user.userName, role: member.role }
         });
         flock.members = await Promise.all(memberPromises);
 
@@ -50,7 +50,7 @@ router.get('/:name', async(req, res) => {
                 let role = "non-member";
                 let isMember = false;
                 flock.members.forEach(member => {
-                    if (member.userId === user.id) {
+                    if (member.id === user.id) {
                         isMember = true;
                         role = member.role;
                     }
@@ -328,7 +328,7 @@ router.get('/:name/p/:postId', async(req, res) => {
         // Get all members
         const memberPromises = flock.members.map( async member => {
             const user = await db.user.findByPk(member.userId);
-            return { userName: user.userName, role: member.role }
+            return { id: user.id, userName: user.userName, role: member.role }
         });
         flock.members = await Promise.all(memberPromises);
 
@@ -359,7 +359,7 @@ router.get('/:name/p/:postId', async(req, res) => {
                 let role = "non-member";
                 let isMember = false;
                 flock.members.forEach(member => {
-                    if (member.userId === user.id) {
+                    if (member.id === user.id) {
                         isMember = true;
                         role = member.role;
                     }
