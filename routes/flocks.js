@@ -29,6 +29,13 @@ router.get('/:name', async(req, res) => {
             include: [db.user, db.flock, db.wing]
         });
 
+        // Get all members
+        const memberPromises = flock.members.map( async member => {
+            const user = await db.user.findByPk(member.userId);
+            return { userName: user.userName, role: member.role }
+        });
+        flock.members = await Promise.all(memberPromises);
+
         // for user navigation
         let flocks = [];
         if (req.user) {
@@ -36,8 +43,8 @@ router.get('/:name', async(req, res) => {
                 const user = await db.user.findByPk(req.user.id, {
                     include: [db.member],
                 });
-                const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
-                const flocks = await Promise.all(promises);
+                const userPromises = user.members.map(async member => await db.flock.findByPk(member.flockId));
+                const flocks = await Promise.all(userPromises);
 
                 // Check if user is a member of the flock. and get their role.
                 let role = "non-member";
@@ -317,6 +324,13 @@ router.get('/:name/p/:postId', async(req, res) => {
             req.flash('error', 'Flock does not exist.');
             throw new Error('Non existant.');
         }
+        
+        // Get all members
+        const memberPromises = flock.members.map( async member => {
+            const user = await db.user.findByPk(member.userId);
+            return { userName: user.userName, role: member.role }
+        });
+        flock.members = await Promise.all(memberPromises);
 
         const post = await db.post.findByPk(postId, {
             include: [db.wing]

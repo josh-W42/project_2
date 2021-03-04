@@ -39,6 +39,27 @@
                             <input type="submit" class="btn btn-outline-dark m-2" value="Join Flock"/>
                         </form>
                     <% } %>
+                    <div class="btn-group d-flex justify-content-between" id="myTab" role="tablist" aria-label="Button group for post">
+                        <button class="collapse-option btn btn-outline-dark" id="members-collapse" data-bs-toggle="collapse" data-bs-target="#members" type="button" aria-controls="members" aria-selected="false">
+                            <i class="fas fa-user-friends"></i><span class="ms-1">Members</span>
+                        </button>
+                    </div>
+                    <div class="collapse multi-collapse" id="members">
+                        <div class="card card-body">
+                            <ul class="list-group list-group-flush text-start">
+                                <% flock.members.forEach((member) => { %>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <%= member.userName %>
+                                        <% if (member.role === 'admin') { %>
+                                            <span>admin</span>
+                                        <% } else if (member.role === 'owner') { %>
+                                            <span>Owner</span>
+                                        <% } %>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -46,7 +67,7 @@
         <%- include('../partials/postBox') %>
     </div>
 </section>
-<% if (currentUser) { %>
+<% if (currentUser) { %> 
     <%- include('../partials/modals/flock') %>
     <% if (isMember) { %>
         <%- include('../partials/modals/post') %>
