@@ -316,7 +316,6 @@ router.put('/:name/m/:memberId/admin/add', canEditFlock, async (req, res) => {
     try {
         // search for member
         const member = flock.members.find((member => member.id === memberId));
-        console.log(member, memberId);
         // change role
         member.role = 'admin';
         await member.save();
@@ -324,8 +323,27 @@ router.put('/:name/m/:memberId/admin/add', canEditFlock, async (req, res) => {
         req.flash('success', `Member Promoted To Admin`);
         res.redirect(`/flocks/${flock.name}`);
     } catch (error) {
-        console.error(error);
         req.flash('error', 'Could Not Promote Member');
+        res.redirect(`/flocks/${flock.name}`);
+    }
+});
+
+// For removing an admin
+router.put('/:name/m/:memberId/admin/remove', canEditFlock, async (req, res) => {
+    const flock = req.flock;
+    const memberId = parseInt(req.params.memberId);
+
+    try {
+        // search for member
+        const member = flock.members.find((member => member.id === memberId));
+        // change role
+        member.role = 'member';
+        await member.save();
+
+        req.flash('success', `Admin Demoted To Member`);
+        res.redirect(`/flocks/${flock.name}`);
+    } catch (error) {
+        req.flash('error', 'Could Not Demote Admin');
         res.redirect(`/flocks/${flock.name}`);
     }
 });

@@ -70,7 +70,9 @@
                                                     </div>
                                                 <% } else if (member.role === 'admin') { %>
                                                     <div class="btn-group mt-2" aria-label="Button group for roles">
-                                                        <button class="btn btn-outline-danger btn-sm">Remove Admin</button>
+                                                        <form action="/flocks/<%= flock.name %>/m/<%= member.id %>/admin/remove/?_method=PUT" method="POST">
+                                                            <button class="btn btn-outline-danger btn-sm">Remove Admin</button>
+                                                        </form>
                                                     </div>
                                                 <% } %>
                                             </div>
