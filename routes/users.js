@@ -29,7 +29,7 @@ router.get('/:userName', async(req, res) => {
 
         // get all posts related to the user
         let posts = await user.getPosts({
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
             include: [db.user, db.flock, db.wing, db.comment]
         });
 

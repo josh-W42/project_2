@@ -5,7 +5,7 @@ const db = require('../models');
 router.get('/', async(req, res) => {
 
     let posts = await db.post.findAll({
-        order: [['createdAt', 'ASC']],
+        order: [['createdAt', 'DESC']],
         include: [db.user, db.flock, db.wing, db.comment]
     });
 

@@ -25,7 +25,7 @@ router.get('/:name', async(req, res) => {
 
         // get all posts
         let posts = await flock.getPosts({
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
             include: [db.user, db.flock, db.wing, db.comment]
         });
 
@@ -405,7 +405,7 @@ router.get('/:name/p/:postId', async(req, res) => {
         }
 
         const comments = await post.getComments({
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
             include: [db.wing, db.user]
         });
 
