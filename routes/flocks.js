@@ -242,6 +242,28 @@ router.post('/:name/p', canPost, uploads.single('image'), async(req, res) => {
     }
 });
 
+// Delete a post
+router.delete('/:name/p/:postId', isLoggedIn, async (req, res) => {
+    const name = req.params.name;
+    const postId = parseInt(req.params.postId);
+
+   try {
+       // First, find the post
+       const post = await db.post.findByPk(postId);
+       if (!post) throw new Error('Post Does Not Exist.');
+
+       // Then delete the post!
+       await post.destroy();
+
+       req.flash('success', 'Post Deleted');
+       res.redirect(`/flocks/${name}`);
+   } catch (error) {
+       req.flash('error', error.message);
+       res.redirect(`/flocks/${name}`);
+   } 
+
+});
+
 // For Joining a flock
 router.post('/:name/m/:userId', isLoggedIn, async(req, res) => {
     let name = req.params.name;

@@ -42,13 +42,13 @@ router.get('/:userName', async(req, res) => {
                 const promises = viewer.members.map(async member => await db.flock.findByPk(member.flockId));
                 flocks = await Promise.all(promises);
     
-                res.render('./users', { userData, flocks, canMake: null, posts });
+                res.render('./users', { userData, flocks, role: 'viewer', canMake: null, posts });
             } catch (error) {
                 req.flash('error', "error when finding members");
                 res.redirect('/');
             }
         } else {
-            res.render('./users', { userData, flocks, canMake: null, posts });
+            res.render('./users', { userData, flocks, role: 'viewer', canMake: null, posts });
         }
     } catch (error) {
         req.flash('error', 'User does not exist');

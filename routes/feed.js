@@ -18,13 +18,13 @@ router.get('/', async(req, res) => {
             const promises = user.members.map(async member => await db.flock.findByPk(member.flockId));
             flocks = await Promise.all(promises);
 
-            res.render('./feed', { flocks, canMake: "flock", posts });
+            res.render('./feed', { flocks, role: 'viewer', canMake: "flock", posts });
         } catch (error) {
             req.flash('error', "error when finding members");
             res.redirect('/');
         }
     } else {
-        res.render('./feed', { flocks, canMake: "flock", posts });
+        res.render('./feed', { flocks, role: 'viewer', canMake: "flock", posts });
     }
 });
 
