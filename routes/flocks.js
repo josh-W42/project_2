@@ -405,7 +405,7 @@ router.get('/:name/p/:postId', async(req, res) => {
         }
 
         const comments = await post.getComments({
-            order: [['createdAt', 'DESC']],
+            order: [['createdAt', 'ASC']],
             include: [db.wing, db.user]
         });
 
