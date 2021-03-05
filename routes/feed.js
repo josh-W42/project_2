@@ -6,7 +6,7 @@ router.get('/', async(req, res) => {
 
     let posts = await db.post.findAll({
         order: [['createdAt', 'ASC']],
-        include: [db.user, db.flock, db.wing]
+        include: [db.user, db.flock, db.wing, db.comment]
     });
 
     let flocks = [];

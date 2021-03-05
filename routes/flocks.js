@@ -26,7 +26,7 @@ router.get('/:name', async(req, res) => {
         // get all posts
         let posts = await flock.getPosts({
             order: [['createdAt', 'ASC']],
-            include: [db.user, db.flock, db.wing]
+            include: [db.user, db.flock, db.wing, db.comment]
         });
 
         // Get all members
@@ -408,6 +408,8 @@ router.get('/:name/p/:postId', async(req, res) => {
             order: [['createdAt', 'ASC']],
             include: [db.wing, db.user]
         });
+
+        post.comments = comments.length;
 
         // for user navigation
         let flocks = [];

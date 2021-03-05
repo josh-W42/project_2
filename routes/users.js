@@ -30,7 +30,7 @@ router.get('/:userName', async(req, res) => {
         // get all posts related to the user
         let posts = await user.getPosts({
             order: [['createdAt', 'ASC']],
-            include: [db.user, db.flock, db.wing]
+            include: [db.user, db.flock, db.wing, db.comment]
         });
 
         // We have to load in information about the user if they are viewing their own profile.

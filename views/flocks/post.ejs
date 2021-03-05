@@ -146,7 +146,7 @@
                 <div class="card-footer">
                     <div class="btn-group d-flex" role="group" aria-label="Button group for post">
                         <button id="replyBtn" type="button" class="btn btn-outline-dark">
-                            <i class="far fa-comment-alt"></i>
+                            <%= post.comments %> <i class="far fa-comment-alt"></i>
                         </button>
                         <button 
                             type="button" data-postid="<%= post.id %>"
