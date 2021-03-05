@@ -38,16 +38,7 @@ import socket from './app.js';
                 });
             });
         });
-
-        // Collection Btn feature.
-        document.querySelector('.collectionBtn').addEventListener('click', e => {
-            if (e.target.classList.contains('btn-dark')) {
-                e.target.classList.replace('btn-dark', 'btn-outline-dark');
-            } else {
-                e.target.classList.replace('btn-outline-dark', 'btn-dark');
-            }
-        });
-
+    
         // No need to compute events for buttons if not logged in
         const addFeatherBtn = document.querySelector('.addFeatherBtn');
         const minusFeatherBtn = document.querySelector('.minusFeatherBtn');

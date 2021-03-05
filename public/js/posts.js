@@ -12,7 +12,6 @@ import socket from './app.js'
         // No need to compute events for buttons if not logged in
         const addFeatherBtns = document.querySelectorAll('.addFeatherBtn');
         const minusFeatherBtns = document.querySelectorAll('.minusFeatherBtn');
-        const collectionsBtns = document.querySelectorAll('.collectionBtn');
 
         // we need to update wings when the buttons are pressed.
         const updateWings = (wings, postId, posterId, viewerId, didBtnFade, status) => {
@@ -40,9 +39,11 @@ import socket from './app.js'
             // Post Wing Button UI
             // We want the wing button to look pressed when clicked then switch
             // between up votes and down votes.
+            console.log(addFeatherBtns);
             for (let i = 0; i < addFeatherBtns.length; i++) {
                 // Because there should be the same amount of add / minus / bookmark buttons
                 // we can add all event listeners in one place.
+
 
                 addFeatherBtns[i].addEventListener('click', e => {
                     let currentAddBtn = e.target;
@@ -96,13 +97,6 @@ import socket from './app.js'
                         const posterId = parseInt(post.dataset.poster);
                         const viewerId = parseInt(post.dataset.viewer);
                         updateWings(count, postId, posterId, viewerId, faded, 'false');
-                    }
-                });
-                collectionsBtns[i].addEventListener('click', e => {
-                    if (e.target.classList.contains('btn-dark')) {
-                        e.target.classList.replace('btn-dark', 'btn-outline-dark');
-                    } else {
-                        e.target.classList.replace('btn-outline-dark', 'btn-dark');
                     }
                 });
             }
