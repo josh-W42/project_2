@@ -44,4 +44,4 @@ npm start
 
 ## Some Notes:
 
-- As of right now, some features are incomplete if you were to look at the planning markdown file. I'll work on this project in spare time and I'll try to add more of these features over time!
+- As of right now, some features are incomplete if you were to look at the planning markdown file. I'll work on this project and add more of these features over time!
